@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Github, Linkedin, Facebook, Instagram } from './BrandIcons';
 import { useLanguage } from '../context/LanguageContext';
+import Reveal from './Reveal';
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -55,19 +56,21 @@ export default function Contact() {
     <section id="contact" className="border-t border-slate-200/60 bg-white">
       <div className="section-container">
         <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Bắt Đầu Dự Án', 'Start Your Project')}</h2>
-          <div className="section-divider" />
-          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-            {t(
-              'Sẵn sàng nâng tầm doanh nghiệp của bạn? Hãy chia sẻ về dự án để nhận tư vấn và báo giá chi tiết.',
-              'Ready to elevate your business? Tell me about your project to get a consultation and quote.'
-            )}
-          </p>
+          <Reveal>
+            <h2 className="section-heading">{t('Bắt Đầu Dự Án', 'Start Your Project')}</h2>
+            <div className="section-divider" />
+            <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
+              {t(
+                'Sẵn sàng nâng tầm doanh nghiệp của bạn? Hãy chia sẻ về dự án để nhận tư vấn và báo giá chi tiết.',
+                'Ready to elevate your business? Tell me about your project to get a consultation and quote.'
+              )}
+            </p>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           {/* Left — Info */}
-          <div className="lg:col-span-4 space-y-4">
+          <Reveal delay={0.2} className="lg:col-span-4 space-y-4">
             <h3 className="font-bold text-slate-800 text-sm">{t('Thông tin liên lạc', 'Contact Info')}</h3>
             {socialLinks.map(({ icon: Icon, label, href, val }) => (
               <a
@@ -86,10 +89,10 @@ export default function Contact() {
                 </div>
               </a>
             ))}
-          </div>
+          </Reveal>
 
           {/* Right — Form */}
-          <div className="lg:col-span-8">
+          <Reveal delay={0.3} className="lg:col-span-8">
             {status === 'success' ? (
               <div className="flex flex-col items-center justify-center py-16 gap-4">
                 <div className="w-14 h-14 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
@@ -162,7 +165,7 @@ export default function Contact() {
                 </button>
               </form>
             )}
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

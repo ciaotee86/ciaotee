@@ -5,6 +5,7 @@ import Image from 'next/image';
 import { ExternalLink, Sparkles, RefreshCw } from 'lucide-react';
 import { Github } from './BrandIcons';
 import { useLanguage } from '../context/LanguageContext';
+import Reveal from './Reveal';
 
 const CATEGORY_LABELS = {
   all: { vi: 'Tất cả', en: 'All' },
@@ -54,36 +55,36 @@ export default function Projects() {
       <div className="section-container">
         {/* Header */}
         <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Dự án tiêu biểu', 'Selected Projects')}</h2>
-          <div className="section-divider" />
-          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-            {t(
-              'Các dự án tôi đã thực hiện — từ landing page đến web app hoàn chỉnh.',
-              "Projects I've built — from landing pages to full web applications."
-            )}
-          </p>
+          <Reveal>
+            <h2 className="section-heading">{t('Dự án tiêu biểu', 'Selected Projects')}</h2>
+            <div className="section-divider" />
+            <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
+              {t(
+                'Những sản phẩm số được thiết kế tỉ mỉ, tối ưu hóa hiệu năng và mang lại kết quả thực tế.',
+                'Meticulously designed digital products, optimized for performance and real-world results.'
+              )}
+            </p>
+          </Reveal>
         </div>
 
         {/* Category Filter */}
-        <div className="flex flex-wrap justify-center gap-2 mb-10">
-          {categories.slice(0, 6).map(cat => {
-            const labels = CATEGORY_LABELS[cat];
-            if (!labels) return null;
-            return (
+        <Reveal delay={0.1}>
+          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
+            {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-1.5 rounded-full text-sm font-medium transition-all duration-200 cursor-pointer border ${
+                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                   activeCategory === cat
-                    ? 'bg-blue-600 text-white border-blue-600 shadow-sm'
-                    : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300 hover:text-slate-800'
+                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
                 }`}
               >
-                {language === 'vi' ? labels.vi : labels.en}
+                {CATEGORY_LABELS[cat][language]}
               </button>
-            );
-          })}
-        </div>
+            ))}
+          </div>
+        </Reveal>
 
         {/* States */}
         {loading && (
@@ -130,23 +131,20 @@ export default function Projects() {
               const isLive = project.status === 'published' && project.demo_url;
 
               return (
-                <article
-                  key={project.id}
-                  className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm card-hover flex flex-col"
-                  style={{ animationDelay: `${i * 80}ms` }}
-                >
-                  {/* Thumbnail */}
-                  <div className="relative aspect-video bg-slate-100 overflow-hidden border-b border-slate-100">
-                    {project.thumbnail_url ? (
-                      <Image
-                        src={project.thumbnail_url}
-                        alt={title}
-                        fill
-                        className="object-cover group-hover:scale-105 transition-transform duration-500"
-                        sizes="(max-width: 768px) 100vw, 33vw"
-                      />
-                    ) : (
-                      <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform duration-300">
+                <Reveal key={project.id} delay={0.2 + (i * 0.1)}>
+                  <article className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm card-hover flex flex-col h-full">
+                    {/* Thumbnail */}
+                    <div className="relative aspect-video bg-slate-100 overflow-hidden border-b border-slate-100">
+                      {project.thumbnail_url ? (
+                        <Image
+                          src={project.thumbnail_url}
+                          alt={title}
+                          fill
+                          className="object-cover group-hover:scale-105 transition-transform duration-500"
+                          sizes="(max-width: 768px) 100vw, 33vw"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform duration-300">
                         <Sparkles size={28} className="text-blue-400/60" />
                         <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
                           {catLabel ? (language === 'vi' ? catLabel.vi : catLabel.en) : project.category}
@@ -211,6 +209,7 @@ export default function Projects() {
                     </div>
                   </div>
                 </article>
+              </Reveal>
               );
             })}
           </div>

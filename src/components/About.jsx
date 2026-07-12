@@ -2,6 +2,7 @@
 import React from 'react';
 import { Compass, Palette, Code, Cpu } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
+import Reveal from './Reveal';
 
 export default function About() {
   const { t } = useLanguage();
@@ -17,16 +18,18 @@ export default function About() {
     <section id="about" className="border-t border-slate-200/60 bg-white">
       <div className="section-container">
         <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Về tôi', 'About Me')}</h2>
-          <div className="section-divider" />
-          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-            {t('Người phát triển website.', 'Website developer.')}
-          </p>
+          <Reveal>
+            <h2 className="section-heading">{t('Về tôi', 'About Me')}</h2>
+            <div className="section-divider" />
+            <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
+              {t('Người phát triển website.', 'Website developer.')}
+            </p>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
           {/* Left: Content */}
-          <div className="space-y-6">
+          <Reveal delay={0.2} className="space-y-6">
             <h3 className="text-2xl font-bold text-slate-900 leading-snug">
               {t(
                 'Kiến tạo giá trị doanh nghiệp qua lăng kính công nghệ.',
@@ -47,17 +50,19 @@ export default function About() {
                 )}
               </p>
             </div>
-          </div>
+          </Reveal>
 
           <div className="grid grid-cols-2 gap-4">
             {highlights.map((item, i) => (
-              <div key={i} className="bg-slate-50 border border-slate-200/60 p-5 rounded-xl card-hover text-left">
-                <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-3">
-                  <item.icon size={17} />
+              <Reveal key={i} delay={0.3 + (i * 0.1)}>
+                <div className="bg-slate-50 border border-slate-200/60 p-5 rounded-xl card-hover text-left h-full">
+                  <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-3">
+                    <item.icon size={17} />
+                  </div>
+                  <h3 className="font-bold text-slate-800 text-sm mb-1">{item.title}</h3>
+                  <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
                 </div>
-                <h3 className="font-bold text-slate-800 text-sm mb-1">{item.title}</h3>
-                <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
