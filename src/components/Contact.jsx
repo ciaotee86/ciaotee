@@ -47,9 +47,9 @@ export default function Contact() {
 
   const socialLinks = [
     { icon: Mail, label: 'Email', href: 'mailto:gamern1234hk5@gmail.com', val: 'gamern1234hk5@gmail.com' },
-    { icon: Github, label: 'GitHub', href: 'https://github.com/ciaotee86', val: 'github.com/ciaotee86' },
+    { icon: Github, label: 'GitHub', href: 'https://github.com/ciaotee86', val: 'ciaotee86' },
     { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/_ciaossu_qt.tee_/', val: '_ciaossu_qt.tee_' },
-    { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/ciaossu.qt.tee/', val: 'facebook.com/ciaossu.qt.tee' },
+    { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/ciaossu.qt.tee/', val: 'ciaossu.qt.tee' },
   ];
 
   return (
