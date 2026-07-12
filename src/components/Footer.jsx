@@ -36,7 +36,9 @@ export default function Footer() {
           {/* Brand */}
           <div className="md:col-span-5 space-y-4">
             <div className="flex items-center gap-2.5">
-              <span className="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white font-black text-sm">T</span>
+              <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center overflow-hidden">
+                <img src="/icon.png" alt="Logo" className="w-full h-full object-contain mix-blend-multiply" />
+              </div>
               <span className="font-bold text-lg text-white">Tee</span>
             </div>
             <p className="text-sm leading-relaxed max-w-xs">

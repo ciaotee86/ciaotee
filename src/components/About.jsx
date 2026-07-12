@@ -1,6 +1,6 @@
 "use client";
 import React from 'react';
-import { Layout, Smartphone, Zap, Compass, Palette, Code, Cpu } from 'lucide-react';
+import { Compass, Palette, Code, Cpu } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function About() {

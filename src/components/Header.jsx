@@ -62,10 +62,7 @@ export default function Header() {
           onClick={() => scrollTo('home')}
           className="flex items-center gap-2.5 group cursor-pointer"
         >
-          <span className="relative flex h-8 w-8 items-center justify-center rounded-lg bg-blue-600 text-white font-black text-sm shadow-sm group-hover:scale-110 transition-transform duration-200">
-            T
-            <span className="absolute -inset-0.5 rounded-lg bg-blue-600/20 scale-0 group-hover:scale-100 transition-transform" />
-          </span>
+          <img src="/icon.png" alt="Logo" className="w-8 h-8 object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-200" />
           <span className="font-bold text-lg text-slate-900 tracking-tight">Tee</span>
         </button>
 
