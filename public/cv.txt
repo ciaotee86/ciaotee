@@ -1,0 +1,55 @@
+================================================================================
+                     CYBERPUNK TECH RESUME // VER 2026.07
+================================================================================
+
+[BASIC INFO]
+--------------------------------------------------------------------------------
+Name       : Software Developer
+Role       : Full-Stack & Multi-Platform Software Engineer
+Location   : Ho Chi Minh City, Vietnam
+Email      : contact@yourdomain.com
+GitHub     : https://github.com
+Portfolio  : C:\Users\gamer\.gemini\antigravity\scratch\cyberpunk-portfolio
+
+[PROFESSIONAL PROFILE]
+--------------------------------------------------------------------------------
+A versatile software developer focusing on multi-platform architectures. Expert
+in building high-performance web systems, responsive mobile applications, 
+native desktop software, and robust hardware/IoT integrations. Possesses deep
+technical knowledge across multiple language paradigms (C#, Kotlin, Python, JS).
+
+[CORE TECH STACK]
+--------------------------------------------------------------------------------
++ MOBILE DEVELOPMENT      : Kotlin, Jetpack Compose, Android SDK
++ WEB SYSTEMS             : React, Next.js, FastAPI, Node.js, REST APIs, MQTT
++ DESKTOP APPLICATIONS    : C# .NET Core, WPF, WinForms
++ SYSTEM AUTOMATION & RPA : Python, Playwright, Puppeteer, Selenium
++ HARDWARE & IOT          : ESP32, Arduino, C++, Sensors (pH, moisture, etc.)
++ DATABASES & DEV TOOLS   : SQLite, Git, Figma, Docker
+
+[REPRESENTATIVE PROJECTS]
+--------------------------------------------------------------------------------
+1. SMART IOT HYDROPONICS (Hardware & IoT)
+   - Developed a vertical hydroponic farming monitoring system with ESP32.
+   - Built a real-time web dashboard using Next.js displaying soil moisture, pH.
+   - Configured MQTT server messaging for low-latency hardware controls.
+
+2. CYBERPUNK AUTOMATION RPA TOOL (Web & Automation)
+   - Created a browser automation suite using Python and Playwright.
+   - Designed a React dashboard for launching/stopping scheduled scraper scripts.
+   - Bypassed anti-bot controls for bulk e-commerce price monitoring.
+
+3. MULTI-PLATFORM SALES APP (Mobile & Desktop)
+   - Coded a native Android application in Kotlin using Jetpack Compose.
+   - Programmed a backend coordination server utilizing .NET Web APIs.
+   - Built a WPF desktop client for instant inventory sync and billing.
+
+[EDUCATION & CERTIFICATIONS]
+--------------------------------------------------------------------------------
+- Bachelor of Computer Science
+- Advanced Multi-Platform Developer Certification
+- IoT & Hardware Systems Engineering Workshop
+
+================================================================================
+                 EOF // SECURE CONNECTION TERMINATED // 2026
+================================================================================

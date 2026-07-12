@@ -1,0 +1,117 @@
+{
+  "projects": [
+    {
+      "id": "1",
+      "title": "Smart IoT Hydroponics",
+      "description": "Hệ thống giám sát và tự động hóa nông nghiệp thông minh. Đo nồng độ dinh dưỡng pH, độ ẩm đất và điều khiển máy bơm tự động qua Web Dashboard, giao tiếp MQTT thời gian thực.",
+      "category": "iot-hardware",
+      "imageUrl": "/projects/iot-hydroponics.png",
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://demo.com",
+      "tags": [
+        "ESP32",
+        "C++",
+        "MQTT",
+        "Next.js",
+        "SQLite"
+      ],
+      "displayOrder": 1
+    },
+    {
+      "id": "2",
+      "title": "Cyberpunk Automation RPA Tool",
+      "description": "Hệ thống tự động hóa quy trình nghiệp vụ (RPA) tối ưu. Hỗ trợ tạo kịch bản click-and-run, cào dữ liệu e-commerce quy mô lớn và tự động tương tác trình duyệt chống phát hiện.",
+      "category": "web-automation",
+      "imageUrl": "/projects/rpa-tool.png",
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://demo.com",
+      "tags": [
+        "Python",
+        "Playwright",
+        "FastAPI",
+        "Next.js"
+      ],
+      "displayOrder": 2
+    },
+    {
+      "id": "3",
+      "title": "Multi-Platform Sales App",
+      "description": "Ứng dụng quản lý bán hàng đa nền tảng. Phiên bản Mobile viết bằng Kotlin & Jetpack Compose dành cho nhân viên thị trường, đồng bộ dữ liệu với Desktop App (C# .NET) tại quầy.",
+      "category": "mobile-desktop",
+      "imageUrl": "/projects/sales-app.png",
+      "githubUrl": "https://github.com",
+      "demoUrl": "https://demo.com",
+      "tags": [
+        "Kotlin",
+        "C# .NET",
+        "Jetpack Compose",
+        "WPF"
+      ],
+      "displayOrder": 3
+    }
+  ],
+  "techStack": [
+    {
+      "id": "1",
+      "name": "Kotlin",
+      "iconName": "Smartphone",
+      "category": "Mobile",
+      "description": "Mobile Development",
+      "displayOrder": 1
+    },
+    {
+      "id": "2",
+      "name": "React/Next.js",
+      "iconName": "Globe",
+      "category": "Web",
+      "description": "Web Frontend/Backend",
+      "displayOrder": 2
+    },
+    {
+      "id": "3",
+      "name": "C# .NET",
+      "iconName": "Monitor",
+      "category": "Desktop",
+      "description": "Desktop Apps",
+      "displayOrder": 3
+    },
+    {
+      "id": "4",
+      "name": "ESP32/IoT",
+      "iconName": "Cpu",
+      "category": "IoT",
+      "description": "Hardware & IoT",
+      "displayOrder": 4
+    },
+    {
+      "id": "5",
+      "name": "Python/RPA",
+      "iconName": "Terminal",
+      "category": "RPA",
+      "description": "Automation Scripts",
+      "displayOrder": 5
+    },
+    {
+      "id": "6",
+      "name": "Figma/Tools",
+      "iconName": "Layers",
+      "category": "Design",
+      "description": "Design & Planning",
+      "displayOrder": 6
+    }
+  ],
+  "messages": [
+    {
+      "name": "Stores For Tee",
+      "email": "gamern1234hk5@gmail.com",
+      "message": "xin chao",
+      "id": "ff47749a-a7fa-4617-a3e6-64c496bb449a",
+      "createdAt": "2026-07-02T15:11:01.365Z",
+      "isRead": false
+    }
+  ],
+  "admin": {
+    "passwordHash": "7df18018b97f2cbcc4bf28e03092ccead3ae410f0aed8a16a5d620efa2cb2c2aeb9d5fc1b9b048072142f2cfd093656dd0e6000975a4e02a5c1c7a6eb45a4373",
+    "salt": "160f6246dc4caecd7e95effb66697548"
+  }
+}
