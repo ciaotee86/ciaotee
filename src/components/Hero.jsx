@@ -69,7 +69,7 @@ export default function Hero() {
             {/* Tags */}
             <div className="flex flex-wrap gap-2 animate-fade-up" style={{ animationDelay: '0ms' }}>
               <span className="tag tag-blue"><Layout size={10} />{t('Thiết kế UI/UX', 'UI/UX Architecture')}</span>
-              <span className="tag tag-purple"><Code2 size={10} />{t('Kỹ sư Frontend', 'Frontend Engineering')}</span>
+              <span className="tag tag-purple"><Code2 size={10} />{t('Frontend Developer', 'Frontend Developer')}</span>
               <span className="tag tag-slate"><Sparkles size={10} />{t('Tối ưu Chuyển đổi', 'Conversion Optimization')}</span>
             </div>
 
@@ -79,9 +79,9 @@ export default function Hero() {
                 {t('Xin chào, tôi là Tee', "Hi, I'm Tee")}
               </h2>
               <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
-                {t('Giải pháp web', 'Digital solutions')} <br />
+                {t('Giải pháp Digital', 'Digital solutions')} <br />
                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
-                  {t('đột phá doanh thu', 'driving growth')}
+                  {t('đột phá trải nghiệm của bạn', 'Revolutionize your experience')}
                 </span>
               </h1>
             </div>
@@ -89,8 +89,8 @@ export default function Hero() {
             {/* Description */}
             <p className="text-lg text-slate-600 max-w-xl leading-relaxed">
               {t(
-                'Biến tầm nhìn kinh doanh của bạn thành các sản phẩm số vượt trội. Tôi kết hợp tư duy thiết kế và kiến trúc phần mềm hiện đại để tạo ra những trải nghiệm web tốc độ cao, bảo mật và tối ưu tỷ lệ chuyển đổi.',
-                'Transforming business visions into exceptional digital products. I combine design thinking with modern software architecture to build fast, secure, and highly converting web experiences.'
+                'Biến tầm nhìn của bạn thành các sản phẩm số vượt trội. Tôi kết hợp tư duy thiết kế và kiến trúc phần mềm hiện đại để tạo ra những trải nghiệm web tốc độ cao, bảo mật và tối ưu tỷ lệ chuyển đổi.',
+                'Transforming visions into exceptional digital products. I combine design thinking with modern software architecture to build fast, secure, and highly converting web experiences.'
               )}
             </p>
 

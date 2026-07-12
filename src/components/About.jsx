@@ -20,7 +20,7 @@ export default function About() {
           <h2 className="section-heading">{t('Về tôi', 'About Me')}</h2>
           <div className="section-divider" />
           <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-            {t('Kỹ sư phần mềm với tư duy kinh doanh và thiết kế.', 'Software engineer with a business and design mindset.')}
+            {t('Người phát triển website.', 'Website developer.')}
           </p>
         </div>
 
@@ -36,8 +36,8 @@ export default function About() {
             <div className="space-y-4 text-slate-600 text-sm md:text-base leading-relaxed">
               <p>
                 {t(
-                  'Là một chuyên gia phát triển phần mềm, tôi hiểu rằng code chỉ là công cụ — mục tiêu cuối cùng là giải quyết bài toán kinh doanh. Với nền tảng vững chắc về kiến trúc hệ thống và sự nhạy bén trong UI/UX, tôi giúp các doanh nghiệp biến ý tưởng thành những sản phẩm số vượt trội.',
-                  "As a software development expert, I understand that code is just a tool — the ultimate goal is solving business problems. With a solid foundation in system architecture and UI/UX acumen, I help businesses turn ideas into outstanding digital products."
+                  'Là một người phát triển web, tôi hiểu rằng code chỉ là công cụ — mục tiêu cuối cùng là giải quyết bài toán vấn đề kinh điển của bạn. Với nền tảng về kiến trúc hệ thống và sự nhạy bén trong UI/UX, tôi giúp các doanh nghiệp biến ý tưởng thành những sản phẩm số vượt trội.',
+                  "As a web developer, I understand that code is just a tool — the ultimate goal is to solve your classic problem. With a solid foundation in system architecture and UI/UX acumen, I help businesses turn ideas into outstanding digital products."
                 )}
               </p>
               <p>
@@ -48,7 +48,7 @@ export default function About() {
               </p>
             </div>
           </div>
-          
+
           <div className="grid grid-cols-2 gap-4">
             {highlights.map((item, i) => (
               <div key={i} className="bg-slate-50 border border-slate-200/60 p-5 rounded-xl card-hover text-left">

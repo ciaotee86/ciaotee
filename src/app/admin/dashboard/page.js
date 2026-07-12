@@ -4,7 +4,7 @@ import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import {
   LogOut, Plus, Pencil, Trash2, Image as ImageIcon, X, CheckCircle2,
-  AlertCircle, Upload, Eye, EyeOff, Layers, Star, Globe
+  AlertCircle, Upload, Eye, EyeOff, Layers, Star, Globe, MessageSquare, Check, Calendar
 } from 'lucide-react';
 
 const CATEGORIES = [
@@ -42,6 +42,11 @@ export default function AdminDashboard() {
   const [toast, setToast] = useState(null);
   const [uploadProgress, setUploadProgress] = useState(null);
   const fileRef = useRef(null);
+  
+  // Messages state
+  const [activeTab, setActiveTab] = useState('projects'); // 'projects' | 'messages'
+  const [messages, setMessages] = useState([]);
+  const [loadingMessages, setLoadingMessages] = useState(false);
 
   const showToast = (msg, type = 'success') => {
     setToast({ msg, type });
@@ -58,7 +63,20 @@ export default function AdminDashboard() {
     finally { setLoading(false); }
   }, []);
 
-  useEffect(() => { fetchProjects(); }, [fetchProjects]);
+  const fetchMessages = useCallback(async () => {
+    setLoadingMessages(true);
+    try {
+      const res = await fetch('/api/messages');
+      const json = await res.json();
+      setMessages(json.data || []);
+    } catch { /* ignore */ }
+    finally { setLoadingMessages(false); }
+  }, []);
+
+  useEffect(() => { 
+    fetchProjects(); 
+    fetchMessages();
+  }, [fetchProjects, fetchMessages]);
 
   const handleLogout = async () => {
     await fetch('/api/auth/logout', { method: 'POST' });
@@ -98,6 +116,31 @@ export default function AdminDashboard() {
         showToast('Đã xóa dự án');
       } else {
         showToast('Xóa thất bại', 'error');
+      }
+    } catch { showToast('Lỗi kết nối', 'error'); }
+  };
+
+  const handleMarkAsRead = async (id) => {
+    try {
+      const res = await fetch(`/api/messages/${id}`, { 
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status: 'read' })
+      });
+      if (res.ok) {
+        setMessages(m => m.map(x => x.id === id ? { ...x, status: 'read' } : x));
+        showToast('Đã đánh dấu đã đọc');
+      }
+    } catch { showToast('Lỗi kết nối', 'error'); }
+  };
+
+  const handleDeleteMessage = async (id) => {
+    if (!confirm('Xác nhận xóa tin nhắn này?')) return;
+    try {
+      const res = await fetch(`/api/messages/${id}`, { method: 'DELETE' });
+      if (res.ok) {
+        setMessages(m => m.filter(x => x.id !== id));
+        showToast('Đã xóa tin nhắn');
       }
     } catch { showToast('Lỗi kết nối', 'error'); }
   };
@@ -155,7 +198,7 @@ export default function AdminDashboard() {
   const stats = [
     { label: 'Tổng dự án', value: projects.length, icon: Layers },
     { label: 'Đã ra mắt', value: projects.filter(p => p.status === 'published').length, icon: Globe },
-    { label: 'Nổi bật', value: projects.filter(p => p.featured).length, icon: Star },
+    { label: 'Tin nhắn chưa đọc', value: messages.filter(m => m.status === 'unread').length, icon: MessageSquare },
   ];
 
   return (
@@ -208,7 +251,30 @@ export default function AdminDashboard() {
           ))}
         </div>
 
-        {/* Projects Header */}
+        {/* Tabs */}
+        <div className="flex items-center gap-4 border-b border-slate-800 mb-6">
+          <button
+            onClick={() => setActiveTab('projects')}
+            className={`pb-3 px-1 text-sm font-semibold transition-colors border-b-2 ${activeTab === 'projects' ? 'border-blue-500 text-white' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+          >
+            Dự án ({projects.length})
+          </button>
+          <button
+            onClick={() => setActiveTab('messages')}
+            className={`pb-3 px-1 text-sm font-semibold transition-colors border-b-2 flex items-center gap-2 ${activeTab === 'messages' ? 'border-blue-500 text-white' : 'border-transparent text-slate-500 hover:text-slate-300'}`}
+          >
+            Tin nhắn
+            {messages.filter(m => m.status === 'unread').length > 0 && (
+              <span className="bg-blue-600 text-white text-[10px] px-1.5 py-0.5 rounded-full">
+                {messages.filter(m => m.status === 'unread').length}
+              </span>
+            )}
+          </button>
+        </div>
+
+        {activeTab === 'projects' && (
+          <>
+            {/* Projects Header */}
         <div className="flex items-center justify-between mb-5">
           <h2 className="text-white font-bold text-base">Danh sách dự án</h2>
           <button onClick={openAddForm} className="flex items-center gap-1.5 px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white text-xs font-semibold rounded-lg transition-colors">
@@ -275,6 +341,65 @@ export default function AdminDashboard() {
                 </tbody>
               </table>
             </div>
+          </div>
+        )}
+          </>
+        )}
+
+        {activeTab === 'messages' && (
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+            {loadingMessages ? (
+              <div className="p-6 space-y-3">
+                {[1, 2, 3].map(i => <div key={i} className="h-20 skeleton bg-slate-800 rounded-xl" />)}
+              </div>
+            ) : messages.length === 0 ? (
+              <div className="text-center py-16">
+                <MessageSquare size={28} className="text-slate-700 mx-auto mb-3" />
+                <p className="text-slate-500 text-sm">Chưa có tin nhắn nào từ khách hàng.</p>
+              </div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="w-full text-xs">
+                  <thead className="border-b border-slate-800 bg-slate-900/50">
+                    <tr>
+                      <th className="text-left px-5 py-3 text-slate-500 font-semibold uppercase tracking-widest text-[10px] w-1/4">Người gửi</th>
+                      <th className="text-left px-5 py-3 text-slate-500 font-semibold uppercase tracking-widest text-[10px] w-2/4">Nội dung</th>
+                      <th className="text-left px-5 py-3 text-slate-500 font-semibold uppercase tracking-widest text-[10px] w-1/4">Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {messages.map(msg => (
+                      <tr key={msg.id} className={`border-b border-slate-800/50 transition-colors ${msg.status === 'unread' ? 'bg-slate-800/50' : 'hover:bg-slate-800/20'}`}>
+                        <td className="px-5 py-4 align-top">
+                          <div className={`font-semibold ${msg.status === 'unread' ? 'text-white' : 'text-slate-300'}`}>{msg.name}</div>
+                          <div className="text-slate-500 mt-1">{msg.email}</div>
+                          <div className="text-slate-600 text-[10px] mt-2 flex items-center gap-1">
+                            <Calendar size={10} />
+                            {new Date(msg.created_at).toLocaleDateString('vi-VN', { hour: '2-digit', minute: '2-digit' })}
+                          </div>
+                        </td>
+                        <td className="px-5 py-4 align-top">
+                          <div className={`font-medium mb-1 ${msg.status === 'unread' ? 'text-white' : 'text-slate-300'}`}>{msg.subject}</div>
+                          <p className="text-slate-400 whitespace-pre-wrap">{msg.message}</p>
+                        </td>
+                        <td className="px-5 py-4 align-top">
+                          <div className="flex gap-2">
+                            {msg.status === 'unread' && (
+                              <button onClick={() => handleMarkAsRead(msg.id)} className="flex items-center gap-1 px-2.5 py-1 bg-blue-950/50 hover:bg-blue-900 text-blue-400 rounded-lg transition-colors border border-blue-900/30 text-[10px] font-medium">
+                                <Check size={10} />Đã đọc
+                              </button>
+                            )}
+                            <button onClick={() => handleDeleteMessage(msg.id)} className="flex items-center gap-1 px-2.5 py-1 bg-red-950/50 hover:bg-red-950 text-red-500 rounded-lg transition-colors border border-red-900/30 text-[10px] font-medium">
+                              <Trash2 size={10} />Xóa
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         )}
       </div>

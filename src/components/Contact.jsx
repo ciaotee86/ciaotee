@@ -1,7 +1,7 @@
 "use client";
 import React, { useState } from 'react';
 import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
-import { Github, Linkedin, Facebook } from './BrandIcons';
+import { Github, Linkedin, Facebook, Instagram } from './BrandIcons';
 import { useLanguage } from '../context/LanguageContext';
 
 export default function Contact() {
@@ -19,22 +19,36 @@ export default function Contact() {
     return e;
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     const errs = validate();
     setErrors(errs);
     if (Object.keys(errs).length > 0) return;
 
     setStatus('loading');
-    // Simulate sending (replace with real API call)
-    setTimeout(() => setStatus('success'), 1500);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(form)
+      });
+      if (res.ok) {
+        setStatus('success');
+        setForm({ name: '', email: '', subject: '', message: '' }); // reset form
+      } else {
+        setStatus('error');
+      }
+    } catch (err) {
+      console.error(err);
+      setStatus('error');
+    }
   };
 
   const socialLinks = [
-    { icon: Mail, label: 'Email', href: 'mailto:your@email.com', val: 'your@email.com' },
-    { icon: Github, label: 'GitHub', href: 'https://github.com', val: 'github.com/yourhandle' },
-    { icon: Linkedin, label: 'LinkedIn', href: 'https://linkedin.com', val: 'linkedin.com/in/yourhandle' },
-    { icon: Facebook, label: 'Facebook', href: 'https://facebook.com', val: 'facebook.com/yourhandle' },
+    { icon: Mail, label: 'Email', href: 'mailto:gamern1234hk5@gmail.com', val: 'gamern1234hk5@gmail.com' },
+    { icon: Github, label: 'GitHub', href: 'https://github.com/ciaotee86', val: 'github.com/ciaotee86' },
+    { icon: Instagram, label: 'Instagram', href: 'https://www.instagram.com/_ciaossu_qt.tee_/', val: '_ciaossu_qt.tee_' },
+    { icon: Facebook, label: 'Facebook', href: 'https://facebook.com/ciaossu_qt.tee_', val: 'facebook.com/ciaossu_qt.tee_' },
   ];
 
   return (
