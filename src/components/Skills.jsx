@@ -32,9 +32,15 @@ export default function Skills() {
   return (
     <section id="skills" className="border-t border-slate-200/60" style={{ background: 'var(--color-bg-secondary)' }}>
       <div className="section-container">
-        <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Kỹ năng', 'My Skills')}</h2>
+        <div className="text-center mb-16">
+          <h2 className="section-heading">{t('Chuyên Môn & Công Nghệ', 'Expertise & Tech Stack')}</h2>
           <div className="section-divider" />
+          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
+            {t(
+              'Hệ sinh thái công nghệ hiện đại giúp đảm bảo hiệu năng, bảo mật và khả năng mở rộng cho mọi dự án.',
+              'A modern tech ecosystem ensuring performance, security, and scalability for every project.'
+            )}
+          </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {skillCards.map((card, i) => (

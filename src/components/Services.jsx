@@ -9,39 +9,39 @@ export default function Services() {
   const services = [
     {
       icon: UserCircle, accentClass: 'text-blue-600 bg-blue-50 border-blue-100',
-      title: t('Website cá nhân / Portfolio', 'Personal / Portfolio Website'),
+      title: t('Thiết Kế Web Doanh Nghiệp', 'Corporate Web Design'),
       desc: t(
-        'Thiết kế và xây dựng website để giới thiệu bản thân, kỹ năng và các dự án đã thực hiện.',
-        'Design and build a website to introduce yourself, showcase skills and portfolio projects.'
+        'Xây dựng nhận diện thương hiệu số độc bản, truyền tải đúng thông điệp và đẳng cấp của doanh nghiệp.',
+        'Building unique digital brand identities, conveying the right message and prestige of your business.'
       ),
-      tags: ['Portfolio', 'CV', 'Branding'],
+      tags: ['Branding', 'Corporate', 'B2B'],
     },
     {
       icon: Globe2, accentClass: 'text-violet-600 bg-violet-50 border-violet-100',
-      title: t('Landing Page doanh nghiệp', 'Business Landing Page'),
+      title: t('Landing Page Chuyển Đổi', 'High-Converting Landing Pages'),
       desc: t(
-        'Trang giới thiệu doanh nghiệp, dịch vụ hoặc sản phẩm với giao diện chuyên nghiệp và SEO cơ bản.',
-        'Business landing page for services or products with a professional design and basic SEO.'
+        'Tối ưu hóa UI/UX và phễu người dùng để biến mỗi lượt truy cập thành một khách hàng tiềm năng.',
+        'Optimizing UI/UX and user funnels to turn every visit into a potential customer.'
       ),
-      tags: ['Landing Page', 'SEO', 'Responsive'],
+      tags: ['Conversion', 'Lead Gen', 'Optimization'],
     },
     {
       icon: ShoppingBag, accentClass: 'text-indigo-600 bg-indigo-50 border-indigo-100',
-      title: t('Website thương mại điện tử', 'E-commerce Website'),
+      title: t('Giải Pháp E-Commerce', 'E-Commerce Solutions'),
       desc: t(
-        'Cửa hàng online đơn giản với danh sách sản phẩm, giỏ hàng và tích hợp thanh toán cơ bản.',
-        'Simple online store with product listings, cart, and basic payment integration.'
+        'Nền tảng thương mại điện tử bảo mật, tốc độ cao với trải nghiệm mua sắm mượt mà.',
+        'Secure, high-speed e-commerce platforms with seamless shopping experiences.'
       ),
-      tags: ['Shop', 'Cart', 'Product List'],
+      tags: ['Sales', 'Payments', 'Performance'],
     },
     {
       icon: LayoutDashboard, accentClass: 'text-slate-600 bg-slate-50 border-slate-200',
-      title: t('Dashboard / Quản lý nội dung', 'Dashboard / CMS'),
+      title: t('Ứng Dụng Web & SaaS', 'Web Apps & SaaS'),
       desc: t(
-        'Giao diện quản lý sản phẩm, nội dung hoặc người dùng với bảng biểu và thao tác CRUD.',
-        'Management interface for products, content, or users with tables and CRUD operations.'
+        'Phát triển phần mềm quản trị (CMS/ERP/Dashboard) với kiến trúc linh hoạt, dễ dàng mở rộng.',
+        'Developing management software (CMS/ERP/Dashboard) with flexible, scalable architectures.'
       ),
-      tags: ['Dashboard', 'Admin', 'CRUD'],
+      tags: ['Scalability', 'System', 'Dashboard'],
     },
   ];
 
@@ -49,8 +49,14 @@ export default function Services() {
     <section id="services" className="border-t border-slate-200/60 bg-white">
       <div className="section-container">
         <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Tôi có thể làm gì?', 'What I Can Do')}</h2>
+          <h2 className="section-heading">{t('Dịch Vụ & Giải Pháp', 'Services & Solutions')}</h2>
           <div className="section-divider" />
+          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
+            {t(
+              'Từ ý tưởng đến sản phẩm hoàn thiện, tôi cung cấp các dịch vụ kỹ thuật số đo ni đóng giày cho nhu cầu phát triển của bạn.',
+              'From concept to completion, I provide tailored digital services for your growth needs.'
+            )}
+          </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {services.map((svc, i) => (

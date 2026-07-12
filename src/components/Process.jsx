@@ -9,33 +9,33 @@ export default function Process() {
   const steps = [
     {
       icon: MessageSquareCode, num: '01',
-      title: t('Trao đổi yêu cầu', 'Discuss Requirements'),
-      desc: t('Lắng nghe ý tưởng, loại website và mục tiêu của bạn.', 'Listen to your idea, website type, and goals.'),
+      title: t('Phân Tích & Tư Vấn', 'Discovery & Strategy'),
+      desc: t('Đánh giá bài toán kinh doanh, đề xuất giải pháp công nghệ tối ưu.', 'Evaluate business problems and propose optimal technical solutions.'),
     },
     {
       icon: Compass, num: '02',
-      title: t('Lên kế hoạch', 'Plan & Scope'),
-      desc: t('Xác định cấu trúc trang, tính năng chính, công nghệ phù hợp.', 'Define page structure, key features, and appropriate tech stack.'),
+      title: t('Kiến Trúc Hệ Thống', 'System Architecture'),
+      desc: t('Lên cấu trúc dữ liệu, sơ đồ người dùng và nền tảng công nghệ lõi.', 'Map out data structures, user flows, and core technology stack.'),
     },
     {
       icon: Paintbrush2, num: '03',
-      title: t('Thiết kế giao diện', 'UI Design'),
-      desc: t('Phác thảo wireframe, thiết kế giao diện, duyệt ý với bạn.', 'Sketch wireframe, design interface, review with you.'),
+      title: t('Thiết Kế UI/UX', 'UI/UX Design'),
+      desc: t('Thiết kế giao diện tinh gọn, tập trung vào khả năng chuyển đổi và giữ chân khách hàng.', 'Design clean interfaces focused on conversion and customer retention.'),
     },
     {
       icon: Terminal, num: '04',
-      title: t('Lập trình', 'Development'),
-      desc: t('Xây dựng trang web theo thiết kế đã duyệt, đảm bảo responsive.', 'Build the website from approved design, ensure responsiveness.'),
+      title: t('Phát Triển & Lập Trình', 'Development'),
+      desc: t('Viết mã nguồn sạch, bảo mật, đáp ứng chuẩn hiệu năng khắt khe nhất.', 'Write clean, secure code meeting the strictest performance standards.'),
     },
     {
       icon: MonitorCheck, num: '05',
-      title: t('Kiểm tra & Duyệt', 'Testing & Review'),
-      desc: t('Kiểm tra đa thiết bị, chỉnh sửa theo phản hồi.', 'Cross-device testing, adjust based on feedback.'),
+      title: t('Kiểm Thử Chất Lượng', 'QA & Testing'),
+      desc: t('Kiểm thử đa luồng trên nhiều thiết bị để đảm bảo tính ổn định tuyệt đối.', 'Multi-thread testing across devices to ensure absolute stability.'),
     },
     {
       icon: CloudUpload, num: '06',
-      title: t('Bàn giao & Deploy', 'Handoff & Deploy'),
-      desc: t('Deploy lên hosting, bàn giao code và hướng dẫn sử dụng.', 'Deploy to hosting, hand off code with usage guide.'),
+      title: t('Triển Khai & Bàn Giao', 'Deployment & Handoff'),
+      desc: t('Vận hành lên server thực tế, đào tạo sử dụng và bảo trì hệ thống dài hạn.', 'Deploy to production, provide training and long-term maintenance.'),
     },
   ];
 
@@ -43,8 +43,14 @@ export default function Process() {
     <section id="process" className="border-t border-slate-200/60" style={{ background: 'var(--color-bg-secondary)' }}>
       <div className="section-container">
         <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Quy trình làm việc', 'Work Process')}</h2>
+          <h2 className="section-heading">{t('Quy Trình Triển Khai', 'Implementation Process')}</h2>
           <div className="section-divider" />
+          <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
+            {t(
+              'Phương pháp làm việc chuyên nghiệp, minh bạch và cam kết chất lượng đầu ra.',
+              'A professional, transparent methodology with guaranteed output quality.'
+            )}
+          </p>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {steps.map((step, i) => (

@@ -41,12 +41,12 @@ export default function Contact() {
     <section id="contact" className="border-t border-slate-200/60 bg-white">
       <div className="section-container">
         <div className="text-center mb-12">
-          <h2 className="section-heading">{t('Liên hệ với tôi', 'Get In Touch')}</h2>
+          <h2 className="section-heading">{t('Bắt Đầu Dự Án', 'Start Your Project')}</h2>
           <div className="section-divider" />
           <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
             {t(
-              'Muốn trao đổi về dự án? Hãy để lại tin nhắn, tôi sẽ phản hồi sớm nhất có thể.',
-              'Want to discuss a project? Leave a message and I will respond as soon as possible.'
+              'Sẵn sàng nâng tầm doanh nghiệp của bạn? Hãy chia sẻ về dự án để nhận tư vấn và báo giá chi tiết.',
+              'Ready to elevate your business? Tell me about your project to get a consultation and quote.'
             )}
           </p>
         </div>
@@ -142,7 +142,7 @@ export default function Contact() {
                   ) : (
                     <>
                       <Send size={14} />
-                      {t('Gửi tin nhắn', 'Send Message')}
+                      {t('Gửi yêu cầu', 'Send Request')}
                     </>
                   )}
                 </button>

@@ -55,37 +55,42 @@ export default function Hero() {
           <div className="lg:col-span-7 space-y-8">
             {/* Tags */}
             <div className="flex flex-wrap gap-2 animate-fade-up" style={{ animationDelay: '0ms' }}>
-              <span className="tag tag-blue"><Layout size={10} />{t('Thiết kế Web', 'Web Design')}</span>
-              <span className="tag tag-purple"><Code2 size={10} />{t('Lập trình Frontend', 'Frontend Dev')}</span>
-              <span className="tag tag-slate"><Sparkles size={10} />{t('Tối ưu hiệu năng', 'Performance')}</span>
+              <span className="tag tag-blue"><Layout size={10} />{t('Thiết kế UI/UX', 'UI/UX Architecture')}</span>
+              <span className="tag tag-purple"><Code2 size={10} />{t('Kỹ sư Frontend', 'Frontend Engineering')}</span>
+              <span className="tag tag-slate"><Sparkles size={10} />{t('Tối ưu Chuyển đổi', 'Conversion Optimization')}</span>
             </div>
 
             {/* Headline */}
-            <div className="space-y-4 animate-fade-up" style={{ animationDelay: '100ms' }}>
-              <p className="text-sm font-semibold text-blue-600 font-mono tracking-widest uppercase">
-                {t('Xin chào, tôi là', 'Hello, I am')} ✦
-              </p>
-              <h1 className="text-5xl md:text-6xl xl:text-7xl font-black leading-[1.05] tracking-tight">
-                <span className="text-slate-900">Tee</span>
-              </h1>
-              <div className="flex items-center gap-3 h-10">
-                <span className="text-xl md:text-2xl font-semibold text-slate-600">
-                  {displayed}
-                  <span className="inline-block w-0.5 h-5 bg-blue-600 ml-0.5 align-middle animate-pulse" />
+            <div className="space-y-4">
+              <h2 className="text-xl md:text-2xl font-semibold text-slate-500">
+                {t('Xin chào, tôi là Tee', "Hi, I'm Tee")}
+              </h2>
+              <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
+                {t('Giải pháp web', 'Digital solutions')} <br />
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
+                  {t('đột phá doanh thu', 'driving growth')}
                 </span>
-              </div>
+              </h1>
             </div>
 
             {/* Description */}
-            <p
-              className="text-slate-500 text-base md:text-lg leading-relaxed max-w-lg animate-fade-up"
-              style={{ animationDelay: '200ms' }}
-            >
+            <p className="text-lg text-slate-600 max-w-xl leading-relaxed">
               {t(
-                'Tôi là Web Developer đang tập trung vào thiết kế giao diện, xây dựng website responsive và phát triển các sản phẩm web thực tế.',
-                'I am a Web Developer focused on UI design, building responsive websites, and delivering practical web products.'
+                'Biến tầm nhìn kinh doanh của bạn thành các sản phẩm số vượt trội. Tôi kết hợp tư duy thiết kế và kiến trúc phần mềm hiện đại để tạo ra những trải nghiệm web tốc độ cao, bảo mật và tối ưu tỷ lệ chuyển đổi.',
+                'Transforming business visions into exceptional digital products. I combine design thinking with modern software architecture to build fast, secure, and highly converting web experiences.'
               )}
             </p>
+
+            {/* CTAs */}
+            <div className="flex flex-wrap items-center gap-4 pt-4">
+              <button onClick={() => scrollTo('contact')} className="btn-primary group">
+                {t('Bắt đầu dự án ngay', 'Start Your Project')}
+                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+              </button>
+              <button onClick={() => scrollTo('projects')} className="btn-secondary">
+                {t('Xem hồ sơ năng lực', 'View Portfolio')}
+              </button>
+            </div>
 
             {/* Stats */}
             <div
