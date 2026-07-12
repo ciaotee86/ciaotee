@@ -11,6 +11,19 @@ export default function Hero() {
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState('');
   const [typing, setTyping] = useState(true);
+  const [projectCount, setProjectCount] = useState(0);
+
+  // Fetch project count
+  useEffect(() => {
+    fetch('/api/projects')
+      .then(res => res.json())
+      .then(data => {
+        if (data && data.data && data.data.length > 0) {
+          setProjectCount(data.data.length);
+        }
+      })
+      .catch(err => console.error("Could not fetch project count", err));
+  }, []);
 
   // Typewriter effect for roles
   useEffect(() => {
@@ -81,16 +94,7 @@ export default function Hero() {
               )}
             </p>
 
-            {/* CTAs */}
-            <div className="flex flex-wrap items-center gap-4 pt-4">
-              <button onClick={() => scrollTo('contact')} className="btn-primary group">
-                {t('Bắt đầu dự án ngay', 'Start Your Project')}
-                <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button onClick={() => scrollTo('projects')} className="btn-secondary">
-                {t('Xem hồ sơ năng lực', 'View Portfolio')}
-              </button>
-            </div>
+
 
             {/* Stats */}
             <div
@@ -98,9 +102,9 @@ export default function Hero() {
               style={{ animationDelay: '300ms' }}
             >
               {[
-                { num: '5+', label: t('Dự án', 'Projects') },
+                { num: projectCount > 0 ? `${projectCount}+` : '0', label: t('Dự án', 'Projects') },
                 { num: '100%', label: t('Tận tâm', 'Dedicated') },
-                { num: '2+', label: t('Năm học tập', 'Years learning') },
+                { num: '2+', label: t('Năm kinh nghiệm', 'Years experience') },
               ].map(({ num, label }) => (
                 <div key={label} className="text-left">
                   <div className="text-2xl font-black text-slate-900">{num}</div>
