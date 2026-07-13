@@ -32,10 +32,10 @@ export const projectSchema = z.object({
     .string()
     .min(10, 'Description must be at least 10 characters')
     .max(1000, 'Description max 1000 characters'),
-  category: z.enum(
-    ['landing_page', 'portfolio', 'ecommerce', 'dashboard', 'web_app', 'other'],
-    { message: 'Loại dự án không hợp lệ' }
-  ),
+  category: z
+    .string()
+    .min(1, 'Loại dự án không được để trống')
+    .max(50, 'Loại dự án tối đa 50 ký tự'),
   technologies: z
     .array(z.string().min(1).max(30))
     .min(1, 'Phải có ít nhất 1 công nghệ')

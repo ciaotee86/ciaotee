@@ -456,13 +456,16 @@ export default function AdminDashboard() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-400 mb-1.5">Loại dự án</label>
-                  <select
+                  <input
+                    list="category-options"
                     value={form.category}
                     onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-all"
-                  >
+                    placeholder="Chọn hoặc nhập mới..."
+                  />
+                  <datalist id="category-options">
                     {CATEGORIES.map(c => <option key={c.value} value={c.value}>{c.label}</option>)}
-                  </select>
+                  </datalist>
                 </div>
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-400 mb-1.5">Trạng thái</label>

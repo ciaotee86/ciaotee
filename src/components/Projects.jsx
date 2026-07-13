@@ -25,7 +25,7 @@ const STATUS_BADGE = {
 
 export default function Projects() {
   const { language, t } = useLanguage();
-  const [projects, setProjects] = useState([]);
+  const [allProjects, setAllProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
@@ -34,21 +34,26 @@ export default function Projects() {
     setLoading(true);
     setError(null);
     try {
-      const params = activeCategory !== 'all' ? `?category=${activeCategory}` : '';
-      const res = await fetch(`/api/projects${params}`);
+      const res = await fetch(`/api/projects`);
       if (!res.ok) throw new Error('Failed to fetch');
       const json = await res.json();
-      setProjects(json.data || []);
+      setAllProjects(json.data || []);
     } catch (err) {
       setError(err.message);
     } finally {
       setLoading(false);
     }
-  }, [activeCategory]);
+  }, []);
 
   useEffect(() => { fetchProjects(); }, [fetchProjects]);
 
-  const categories = ['all', ...Object.keys(CATEGORY_LABELS).filter(c => c !== 'all')];
+  // Compute dynamic categories from fetched projects
+  const uniqueCategories = Array.from(new Set(allProjects.map(p => p.category).filter(Boolean)));
+  const categories = ['all', ...uniqueCategories];
+
+  const projectsToDisplay = activeCategory === 'all' 
+    ? allProjects 
+    : allProjects.filter(p => p.category === activeCategory);
 
   return (
     <section id="projects" className="border-t border-slate-200/60" style={{ background: 'var(--color-bg-secondary)' }}>
@@ -70,19 +75,27 @@ export default function Projects() {
         {/* Category Filter */}
         <Reveal delay={0.1}>
           <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                  activeCategory === cat
-                    ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
-              >
-                {CATEGORY_LABELS[cat][language]}
-              </button>
-            ))}
+            {categories.map((cat) => {
+              const predefinedLabel = CATEGORY_LABELS[cat];
+              // Use predefined label if exists, else format the raw string (e.g. "my_app" -> "My App")
+              const displayLabel = predefinedLabel 
+                ? predefinedLabel[language] 
+                : cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+              
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setActiveCategory(cat)}
+                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
+                    activeCategory === cat
+                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
+                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
+                >
+                  {displayLabel}
+                </button>
+              );
+            })}
           </div>
         </Reveal>
 
@@ -113,7 +126,7 @@ export default function Projects() {
           </div>
         )}
 
-        {!loading && !error && projects.length === 0 && (
+        {!loading && !error && projectsToDisplay.length === 0 && (
           <div className="text-center py-16">
             <Sparkles size={32} className="text-slate-300 mx-auto mb-3" />
             <p className="text-slate-400">{t('Chưa có dự án nào.', 'No projects yet.')}</p>
@@ -121,9 +134,9 @@ export default function Projects() {
         )}
 
         {/* Grid */}
-        {!loading && !error && projects.length > 0 && (
+        {!loading && !error && projectsToDisplay.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projects.map((project, i) => {
+            {projectsToDisplay.map((project, i) => {
               const title = language === 'vi' ? project.title_vi : project.title_en;
               const description = language === 'vi' ? project.description_vi : project.description_en;
               const catLabel = CATEGORY_LABELS[project.category];
@@ -147,7 +160,7 @@ export default function Projects() {
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform duration-300">
                         <Sparkles size={28} className="text-blue-400/60" />
                         <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                          {catLabel ? (language === 'vi' ? catLabel.vi : catLabel.en) : project.category}
+                          {catLabel ? catLabel[language] : project.category.replace('_', ' ')}
                         </span>
                       </div>
                     )}
@@ -166,7 +179,7 @@ export default function Projects() {
                   {/* Content */}
                   <div className="p-5 flex flex-col flex-1">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-600 mb-2">
-                      {catLabel ? (language === 'vi' ? catLabel.vi : catLabel.en) : project.category}
+                      {catLabel ? catLabel[language] : project.category.replace('_', ' ')}
                     </span>
                     <h3 className="font-bold text-slate-900 text-base mb-2 leading-snug">{title}</h3>
                     <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 flex-1">{description}</p>
