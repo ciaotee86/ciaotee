@@ -30,6 +30,7 @@ export default function Projects() {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [expandedProjects, setExpandedProjects] = useState(new Set());
   const ITEMS_PER_PAGE = 3;
 
   const fetchProjects = useCallback(async () => {
@@ -56,6 +57,15 @@ export default function Projects() {
   // Compute dynamic categories from fetched projects
   const uniqueCategories = Array.from(new Set(allProjects.map(p => p.normalizedCategory).filter(Boolean)));
   const categories = ['all', ...uniqueCategories];
+
+  const toggleExpand = (id) => {
+    setExpandedProjects(prev => {
+      const next = new Set(prev);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
 
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
@@ -199,7 +209,21 @@ export default function Projects() {
                       {catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' ')}
                     </span>
                     <h3 className="font-bold text-slate-900 text-base mb-2 leading-snug">{title}</h3>
-                    <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 flex-1">{description}</p>
+                    <div className="flex-1 flex flex-col items-start justify-start">
+                      <p className={`text-slate-500 text-xs leading-relaxed transition-all duration-300 ${expandedProjects.has(project.id) ? '' : 'line-clamp-3'}`}>
+                        {description}
+                      </p>
+                      {description.length > 120 && (
+                        <button 
+                          onClick={() => toggleExpand(project.id)}
+                          className="text-[10px] font-bold text-blue-600 hover:text-blue-700 mt-1"
+                        >
+                          {expandedProjects.has(project.id) 
+                            ? (language === 'vi' ? 'Thu gọn' : 'Show less') 
+                            : (language === 'vi' ? 'Xem thêm' : 'Read more')}
+                        </button>
+                      )}
+                    </div>
 
                     {/* Tech tags */}
                     <div className="flex flex-wrap gap-1 mt-4">
