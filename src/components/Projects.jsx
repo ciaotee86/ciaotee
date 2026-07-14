@@ -29,6 +29,8 @@ export default function Projects() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 3;
 
   const fetchProjects = useCallback(async () => {
     setLoading(true);
@@ -37,7 +39,11 @@ export default function Projects() {
       const res = await fetch(`/api/projects`);
       if (!res.ok) throw new Error('Failed to fetch');
       const json = await res.json();
-      setAllProjects(json.data || []);
+      const normalizedData = (json.data || []).map(p => ({
+        ...p,
+        normalizedCategory: p.category ? p.category.toLowerCase().trim().replace(/\s+/g, '_') : 'other'
+      }));
+      setAllProjects(normalizedData);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -48,12 +54,23 @@ export default function Projects() {
   useEffect(() => { fetchProjects(); }, [fetchProjects]);
 
   // Compute dynamic categories from fetched projects
-  const uniqueCategories = Array.from(new Set(allProjects.map(p => p.category).filter(Boolean)));
+  const uniqueCategories = Array.from(new Set(allProjects.map(p => p.normalizedCategory).filter(Boolean)));
   const categories = ['all', ...uniqueCategories];
+
+  const handleCategoryChange = (cat) => {
+    setActiveCategory(cat);
+    setCurrentPage(1); // Reset page on category change
+  };
 
   const projectsToDisplay = activeCategory === 'all' 
     ? allProjects 
-    : allProjects.filter(p => p.category === activeCategory);
+    : allProjects.filter(p => p.normalizedCategory === activeCategory);
+
+  const totalPages = Math.ceil(projectsToDisplay.length / ITEMS_PER_PAGE);
+  const paginatedProjects = projectsToDisplay.slice(
+    (currentPage - 1) * ITEMS_PER_PAGE, 
+    currentPage * ITEMS_PER_PAGE
+  );
 
   return (
     <section id="projects" className="border-t border-slate-200/60" style={{ background: 'var(--color-bg-secondary)' }}>
@@ -85,7 +102,7 @@ export default function Projects() {
               return (
                 <button
                   key={cat}
-                  onClick={() => setActiveCategory(cat)}
+                  onClick={() => handleCategoryChange(cat)}
                   className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
                     activeCategory === cat
                       ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
@@ -134,12 +151,12 @@ export default function Projects() {
         )}
 
         {/* Grid */}
-        {!loading && !error && projectsToDisplay.length > 0 && (
+        {!loading && !error && paginatedProjects.length > 0 && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {projectsToDisplay.map((project, i) => {
+            {paginatedProjects.map((project, i) => {
               const title = language === 'vi' ? project.title_vi : project.title_en;
               const description = language === 'vi' ? project.description_vi : project.description_en;
-              const catLabel = CATEGORY_LABELS[project.category];
+              const catLabel = CATEGORY_LABELS[project.normalizedCategory];
               const statusInfo = STATUS_BADGE[project.status] || STATUS_BADGE.coming_soon;
               const isLive = project.status === 'published' && project.demo_url;
 
@@ -158,12 +175,12 @@ export default function Projects() {
                         />
                       ) : (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform duration-300">
-                        <Sparkles size={28} className="text-blue-400/60" />
-                        <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                          {catLabel ? catLabel[language] : project.category.replace('_', ' ')}
-                        </span>
-                      </div>
-                    )}
+                          <Sparkles size={28} className="text-blue-400/60" />
+                          <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                            {catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' ')}
+                          </span>
+                        </div>
+                      )}
                     {/* Featured badge */}
                     {project.featured && (
                       <span className="absolute top-2 left-2 tag tag-blue text-[10px]">
@@ -179,7 +196,7 @@ export default function Projects() {
                   {/* Content */}
                   <div className="p-5 flex flex-col flex-1">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-600 mb-2">
-                      {catLabel ? catLabel[language] : project.category.replace('_', ' ')}
+                      {catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' ')}
                     </span>
                     <h3 className="font-bold text-slate-900 text-base mb-2 leading-snug">{title}</h3>
                     <p className="text-slate-500 text-xs leading-relaxed line-clamp-2 flex-1">{description}</p>
@@ -225,6 +242,28 @@ export default function Projects() {
               </Reveal>
               );
             })}
+          </div>
+        )}
+
+        {/* Pagination */}
+        {!loading && !error && totalPages > 1 && (
+          <div className="flex justify-center items-center gap-2 mt-12">
+            {Array.from({ length: totalPages }).map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => {
+                  setCurrentPage(idx + 1);
+                  document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
+                }}
+                className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 ${
+                  currentPage === idx + 1
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-110'
+                    : 'bg-white text-slate-500 border border-slate-200/60 hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200'
+                }`}
+              >
+                {idx + 1}
+              </button>
+            ))}
           </div>
         )}
       </div>
