@@ -162,7 +162,7 @@ export default function Projects() {
 
         {/* Grid */}
         {!loading && !error && paginatedProjects.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
             {paginatedProjects.map((project, i) => {
               const title = language === 'vi' ? project.title_vi : project.title_en;
               const description = language === 'vi' ? project.description_vi : project.description_en;
