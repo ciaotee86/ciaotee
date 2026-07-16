@@ -1,7 +1,7 @@
 import './globals.css';
 
 export const metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://ciaotee.vercel.app'),
   title: {
     default: 'Tee — Web Designer & Developer',
     template: '%s | Tee Portfolio',
@@ -57,13 +57,10 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Tee',
-  url: process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+  url: process.env.NEXT_PUBLIC_SITE_URL || 'https://ciaotee.vercel.app',
   jobTitle: 'Web Designer & Developer',
   description: 'Web Developer focused on UI design and responsive websites.',
-  sameAs: [
-    'https://github.com',
-    'https://linkedin.com',
-  ],
+  sameAs: [],
   knowsAbout: ['Web Design', 'React', 'Next.js', 'Tailwind CSS', 'UI/UX Design'],
 };
 
@@ -82,7 +79,8 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="antialiased">
+      <body className="antialiased relative">
+        <div className="signal-line-container"></div>
         {children}
       </body>
     </html>

@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,700;12..96,800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
 @import "tailwindcss";
 
 /* ===================================
@@ -6,24 +6,24 @@
 =================================== */
 :root {
   /* Colors */
-  --color-bg: #F8FAFC;
-  --color-bg-secondary: #F1F5F9;
+  --color-bg: #F5F2EA;
+  --color-bg-secondary: #EBE6DA;
   --color-surface: #FFFFFF;
   --color-surface-raised: #FFFFFF;
-  --color-border: #E2E8F0;
-  --color-border-hover: #CBD5E1;
+  --color-border: #D6D1C4;
+  --color-border-hover: #B8B2A1;
 
-  --color-text-primary: #0F172A;
-  --color-text-secondary: #475569;
-  --color-text-muted: #94A3B8;
+  --color-text-primary: #111318;
+  --color-text-secondary: #4A505C;
+  --color-text-muted: #828A9A;
 
-  --color-primary: #2563EB;
-  --color-primary-hover: #1D4ED8;
-  --color-primary-light: #EFF6FF;
-  --color-primary-border: #BFDBFE;
+  --color-primary: #2457F5;
+  --color-primary-hover: #1943CD;
+  --color-primary-light: #E9EEFE;
+  --color-primary-border: #AABDF9;
 
-  --color-accent: #7C3AED;
-  --color-accent-light: #F5F3FF;
+  --color-accent: #2457F5;
+  --color-accent-light: #E9EEFE;
 
   --color-success: #059669;
   --color-success-light: #ECFDF5;
@@ -32,14 +32,14 @@
   --color-warning: #D97706;
 
   /* Dark Footer */
-  --color-dark: #020617;
-  --color-dark-surface: #0F172A;
-  --color-dark-text: #CBD5E1;
+  --color-dark: #111318;
+  --color-dark-surface: #1C1F26;
+  --color-dark-text: #EBE6DA;
 
   /* Typography */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-display: 'Bricolage Grotesque', 'Inter', sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+  --font-display: 'Playfair Display', serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
 
   /* Spacing & Sizing */
   --section-padding-y: 5rem;
@@ -216,18 +216,38 @@ h1, h2, h3, h4, h5, h6 {
 
 .section-heading {
   font-family: var(--font-display);
-  font-size: clamp(1.5rem, 3vw, 2rem);
-  font-weight: 800;
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 500;
+  font-style: italic;
   color: var(--color-text-primary);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
 }
 
 .section-divider {
-  width: 3rem;
-  height: 3px;
-  background: linear-gradient(to right, var(--color-primary), var(--color-accent));
-  border-radius: 2px;
-  margin: 0.75rem auto 0;
+  width: 4rem;
+  height: 1px;
+  background: var(--color-border-hover);
+  margin: 1.5rem 0;
+}
+
+/* Global Signal Line */
+.signal-line-container {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 2rem;
+  width: 1px;
+  background-color: var(--color-border);
+  z-index: 40;
+  pointer-events: none;
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  .signal-line-container {
+    display: block;
+    left: clamp(2rem, 5vw, 4rem);
+  }
 }
 
 /* ===================================
@@ -380,4 +400,26 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--color-dark);
   color: var(--color-dark-text);
   min-height: 100vh;
+}
+
+/* ===================================
+   ADMIN FIELD CONSOLE DESIGN TOKENS
+=================================== */
+:root {
+  /* Admin Field Console Palette */
+  --admin-bg: #050816;
+  --admin-sidebar: #070B18;
+  --admin-surface: #0B1120;
+  --admin-surface-raised: #10182B;
+  --admin-border: #202B43;
+  
+  --admin-text-primary: #F4F7FC;
+  --admin-text-secondary: #9AA8C2;
+  --admin-text-muted: #64718A;
+  
+  --admin-brand: #3867FF;
+  --admin-status-published: #3DDC97;
+  --admin-status-coming: #5B8CFF;
+  --admin-status-draft: #F5B942;
+  --admin-destructive: #FF5D68;
 }

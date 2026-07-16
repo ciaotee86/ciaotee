@@ -1,70 +1,65 @@
 "use client";
 import React from 'react';
-import { Compass, Palette, Code, Cpu } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-import Reveal from './Reveal';
 
 export default function About() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
-  const highlights = [
-    { icon: Compass, title: t('Tư duy Chiến lược', 'Strategic Thinking'), desc: t('Tập trung vào kết quả và giải pháp kinh doanh.', 'Focused on results and business solutions.') },
-    { icon: Palette, title: t('Thiết kế Thấu cảm', 'Empathetic Design'), desc: t('Giao diện tinh tế, đặt trải nghiệm người dùng làm cốt lõi.', 'Refined interfaces with user experience at the core.') },
-    { icon: Code, title: t('Kiến trúc Bền vững', 'Sustainable Arch.'), desc: t('Cấu trúc code mở rộng, bảo trì dễ dàng.', 'Scalable code structure, easy to maintain.') },
-    { icon: Cpu, title: t('Tối ưu Hiệu năng', 'Performance Opt.'), desc: t('Tốc độ tải siêu tốc, đáp ứng mọi thiết bị.', 'Lightning-fast loading on all devices.') },
+  const principles = [
+    { num: '01', text: t('Hiểu rõ vấn đề cốt lõi', 'Understand the real problem') },
+    { num: '02', text: t('Làm rõ hành động tiếp theo', 'Make the next action obvious') },
+    { num: '03', text: t('Thiết kế cho mọi màn hình', 'Design for every screen') },
+    { num: '04', text: t('Chỉ xây dựng những gì hữu dụng', 'Build only what is useful') },
   ];
 
   return (
-    <section id="about" className="border-t border-slate-200/60 bg-white">
-      <div className="section-container">
-        <div className="text-center mb-12">
-          <Reveal>
-            <h2 className="section-heading">{t('Về tôi', 'About Me')}</h2>
-            <div className="section-divider" />
-            <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-              {t('Người phát triển website.', 'Website developer.')}
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
-          {/* Left: Content */}
-          <Reveal delay={0.2} className="space-y-6">
-            <h3 className="text-2xl font-bold text-slate-900 leading-snug">
-              {t(
-                'Kiến tạo giá trị doanh nghiệp qua lăng kính công nghệ.',
-                'Creating business value through the lens of technology.'
+    <section id="about" className="border-t border-border bg-surface py-24 relative overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6">
+        <div className="flex flex-col md:flex-row gap-16 lg:gap-24 items-start">
+          
+          {/* Left Column - Large Statement */}
+          <div className="md:w-1/2 animate-fade-up">
+            <h2 className="font-display text-4xl lg:text-5xl font-medium leading-[1.2] text-slate-900 tracking-tight">
+              {language === 'vi' ? (
+                <>Rõ ràng trước khi <br/><span className="text-slate-400 italic font-normal">trang trí.</span><br/>Mục đích trước khi <br/><span className="text-blue-600 italic font-normal">công nghệ.</span></>
+              ) : (
+                <>Clarity before <br/><span className="text-slate-400 italic font-normal">decoration.</span><br/>Purpose before <br/><span className="text-blue-600 italic font-normal">technology.</span></>
               )}
-            </h3>
-            <div className="space-y-4 text-slate-600 text-sm md:text-base leading-relaxed">
-              <p>
+            </h2>
+          </div>
+
+          {/* Right Column - Text & Principles */}
+          <div className="md:w-1/2 space-y-12 animate-fade-up" style={{ animationDelay: '200ms' }}>
+            <div className="relative">
+              {/* Marginal note / annotation */}
+              <div className="absolute -left-12 top-0 hidden xl:flex flex-col items-center gap-2 text-slate-400">
+                <div className="w-px h-8 bg-slate-300"></div>
+                <span className="font-mono text-[10px] uppercase tracking-widest rotate-180" style={{ writingMode: 'vertical-rl' }}>Note</span>
+              </div>
+              
+              <p className="text-lg text-slate-600 leading-relaxed font-sans">
                 {t(
-                  'Là một người phát triển web, tôi hiểu rằng code chỉ là công cụ — mục tiêu cuối cùng là giải quyết bài toán vấn đề kinh điển của bạn. Với nền tảng về kiến trúc hệ thống và sự nhạy bén trong UI/UX, tôi giúp các doanh nghiệp biến ý tưởng thành những sản phẩm số vượt trội.',
-                  "As a web developer, I understand that code is just a tool — the ultimate goal is to solve your classic problem. With a solid foundation in system architecture and UI/UX acumen, I help businesses turn ideas into outstanding digital products."
-                )}
-              </p>
-              <p>
-                {t(
-                  'Tôi không chỉ nhận yêu cầu và làm theo, mà còn tư vấn, phản biện và tối ưu hóa quy trình để sản phẩm đạt được tỷ lệ chuyển đổi cao nhất, tốc độ tải trang tối ưu và khả năng mở rộng trong tương lai.',
-                  "I don't just take requests and follow them; I consult, critique, and optimize the process to ensure the product achieves the highest conversion rates, optimal load speeds, and future scalability."
+                  'Tôi sử dụng thiết kế và công nghệ để làm cho thông tin kinh doanh trở nên dễ hiểu và dễ thao tác. Mỗi giao diện đều bắt đầu từ vấn đề, hành trình của người dùng và hành động mà website cần hỗ trợ.',
+                  'I use design and technology to make business information easier to understand and act on. Every interface begins with the problem, the user journey, and the action the website needs to support.'
                 )}
               </p>
             </div>
-          </Reveal>
 
-          <div className="grid grid-cols-2 gap-4">
-            {highlights.map((item, i) => (
-              <Reveal key={i} delay={0.3 + (i * 0.1)}>
-                <div className="bg-slate-50 border border-slate-200/60 p-5 rounded-xl card-hover text-left h-full">
-                  <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 mb-3">
-                    <item.icon size={17} />
-                  </div>
-                  <h3 className="font-bold text-slate-800 text-sm mb-1">{item.title}</h3>
-                  <p className="text-slate-500 text-xs leading-relaxed">{item.desc}</p>
-                </div>
-              </Reveal>
-            ))}
+            <div className="animate-fade-up" style={{ animationDelay: '400ms' }}>
+              <h3 className="font-mono text-xs font-semibold text-slate-900 tracking-widest uppercase border-b border-border pb-3 mb-6">
+                {t('Nguyên tắc làm việc', 'Working principles')}
+              </h3>
+              <ul className="space-y-4">
+                {principles.map((p, idx) => (
+                  <li key={idx} className="flex items-start gap-4 group">
+                    <span className="font-mono text-[10px] font-bold text-blue-600 bg-blue-50 px-2 py-1 border border-blue-100 rounded-sm">{p.num}</span>
+                    <span className="text-slate-700 font-medium group-hover:text-slate-900 transition-colors pt-0.5">{p.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
+
         </div>
       </div>
     </section>

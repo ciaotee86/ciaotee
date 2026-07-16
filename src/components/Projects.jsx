@@ -2,10 +2,9 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
-import { ExternalLink, Sparkles, RefreshCw } from 'lucide-react';
+import { ExternalLink, RefreshCw } from 'lucide-react';
 import { Github } from './BrandIcons';
 import { useLanguage } from '../context/LanguageContext';
-import Reveal from './Reveal';
 
 const CATEGORY_LABELS = {
   all: { vi: 'Tất cả', en: 'All' },
@@ -18,9 +17,9 @@ const CATEGORY_LABELS = {
 };
 
 const STATUS_BADGE = {
-  published: { vi: 'Đã ra mắt', en: 'Live', class: 'tag-green' },
-  coming_soon: { vi: 'Sắp ra mắt', en: 'Coming Soon', class: 'tag-slate' },
-  draft: { vi: 'Bản nháp', en: 'Draft', class: 'tag-slate' },
+  published: { vi: 'Đã ra mắt', en: 'Live', class: 'text-green-600 border-green-200 bg-green-50' },
+  coming_soon: { vi: 'Sắp ra mắt', en: 'Coming Soon', class: 'text-slate-500 border-slate-200 bg-slate-50' },
+  draft: { vi: 'Bản nháp', en: 'Draft', class: 'text-slate-500 border-slate-200 bg-slate-50' },
 };
 
 export default function Projects() {
@@ -30,14 +29,13 @@ export default function Projects() {
   const [error, setError] = useState(null);
   const [activeCategory, setActiveCategory] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
-  const [expandedProjects, setExpandedProjects] = useState(new Set());
   const ITEMS_PER_PAGE = 3;
 
   const fetchProjects = useCallback(async () => {
     setLoading(true);
     setError(null);
     try {
-      const res = await fetch(`/api/projects`);
+      const res = await fetch(`/api/projects?t=${Date.now()}`);
       if (!res.ok) throw new Error('Failed to fetch');
       const json = await res.json();
       const normalizedData = (json.data || []).map(p => ({
@@ -54,22 +52,12 @@ export default function Projects() {
 
   useEffect(() => { fetchProjects(); }, [fetchProjects]);
 
-  // Compute dynamic categories from fetched projects
   const uniqueCategories = Array.from(new Set(allProjects.map(p => p.normalizedCategory).filter(Boolean)));
   const categories = ['all', ...uniqueCategories];
 
-  const toggleExpand = (id) => {
-    setExpandedProjects(prev => {
-      const next = new Set(prev);
-      if (next.has(id)) next.delete(id);
-      else next.add(id);
-      return next;
-    });
-  };
-
   const handleCategoryChange = (cat) => {
     setActiveCategory(cat);
-    setCurrentPage(1); // Reset page on category change
+    setCurrentPage(1);
   };
 
   const projectsToDisplay = activeCategory === 'all' 
@@ -83,60 +71,59 @@ export default function Projects() {
   );
 
   return (
-    <section id="projects" className="border-t border-slate-200/60" style={{ background: 'var(--color-bg-secondary)' }}>
-      <div className="section-container">
+    <section id="projects" className="border-t border-border bg-bg py-24">
+      <div className="max-w-6xl mx-auto px-6">
         {/* Header */}
-        <div className="text-center mb-12">
-          <Reveal>
-            <h2 className="section-heading">{t('Dự án tiêu biểu', 'Selected Projects')}</h2>
-            <div className="section-divider" />
-            <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-              {t(
-                'Những sản phẩm số được thiết kế tỉ mỉ, tối ưu hóa hiệu năng và mang lại kết quả thực tế.',
-                'Meticulously designed digital products, optimized for performance and real-world results.'
-              )}
-            </p>
-          </Reveal>
+        <div className="mb-16 md:mb-24 flex flex-col md:flex-row md:items-end justify-between gap-8 animate-fade-up">
+          <div>
+            <h2 className="font-display text-4xl lg:text-5xl font-medium text-slate-900 tracking-tight">
+              {t('Ghi chép', 'Field Notes')}
+            </h2>
+            <div className="w-12 h-px bg-slate-400 mt-6" />
+          </div>
+          <p className="text-slate-500 text-sm max-w-sm md:text-right font-sans">
+            {t(
+              'Ghi chép về quá trình quan sát tín hiệu kinh doanh và chuyển hóa chúng thành các sản phẩm số hữu dụng.',
+              'Documenting the process of observing business signals and transforming them into useful digital products.'
+            )}
+          </p>
         </div>
 
-        {/* Category Filter */}
-        <Reveal delay={0.1}>
-          <div className="flex flex-wrap items-center justify-center gap-2 mb-10">
-            {categories.map((cat) => {
-              const predefinedLabel = CATEGORY_LABELS[cat];
-              // Use predefined label if exists, else format the raw string (e.g. "my_app" -> "My App")
-              const displayLabel = predefinedLabel 
-                ? predefinedLabel[language] 
-                : cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
-              
-              return (
-                <button
-                  key={cat}
-                  onClick={() => handleCategoryChange(cat)}
-                  className={`px-4 py-2 rounded-full text-xs font-semibold transition-all ${
-                    activeCategory === cat
-                      ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20'
-                      : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                  }`}
-                >
-                  {displayLabel}
-                </button>
-              );
-            })}
-          </div>
-        </Reveal>
+        {/* Category Filter - Field Index Style */}
+        <div className="flex flex-wrap items-center gap-3 mb-16 border-b border-border pb-6 animate-fade-up" style={{ animationDelay: '100ms' }}>
+          <span className="font-mono text-[10px] uppercase tracking-widest text-slate-400 mr-2">Index:</span>
+          {categories.map((cat) => {
+            const predefinedLabel = CATEGORY_LABELS[cat];
+            const displayLabel = predefinedLabel 
+              ? predefinedLabel[language] 
+              : cat.split('_').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+            
+            return (
+              <button
+                key={cat}
+                onClick={() => handleCategoryChange(cat)}
+                className={`font-mono text-xs px-3 py-1.5 transition-all ${
+                  activeCategory === cat
+                    ? 'text-blue-600 bg-blue-50 border border-blue-200'
+                    : 'text-slate-500 hover:text-slate-900 border border-transparent'
+                }`}
+              >
+                {displayLabel}
+              </button>
+            );
+          })}
+        </div>
 
         {/* States */}
         {loading && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[1, 2, 3].map(i => (
-              <div key={i} className="bg-white rounded-2xl border border-slate-200/60 overflow-hidden">
-                <div className="skeleton aspect-video" />
-                <div className="p-5 space-y-3">
-                  <div className="skeleton h-3 w-1/3 rounded" />
-                  <div className="skeleton h-5 w-3/4 rounded" />
-                  <div className="skeleton h-3 w-full rounded" />
-                  <div className="skeleton h-3 w-2/3 rounded" />
+          <div className="space-y-16">
+            {[1, 2].map(i => (
+              <div key={i} className="animate-pulse flex flex-col lg:flex-row gap-8">
+                <div className="lg:w-5/12 aspect-[4/3] bg-slate-200" />
+                <div className="lg:w-7/12 space-y-4 pt-4">
+                  <div className="h-4 w-24 bg-slate-200" />
+                  <div className="h-8 w-3/4 bg-slate-200" />
+                  <div className="h-24 w-full bg-slate-200 mt-8" />
                 </div>
               </div>
             ))}
@@ -144,126 +131,181 @@ export default function Projects() {
         )}
 
         {error && (
-          <div className="text-center py-16">
-            <p className="text-slate-500 mb-4">{t('Không thể tải dự án.', 'Could not load projects.')}</p>
-            <button onClick={fetchProjects} className="btn-secondary gap-2">
+          <div className="text-center py-24 border border-border bg-white">
+            <p className="text-slate-500 mb-4 font-mono text-sm">{t('Không thể tải dữ liệu.', 'Could not load data.')}</p>
+            <button onClick={fetchProjects} className="px-4 py-2 border border-slate-300 hover:border-slate-900 font-mono text-xs flex items-center gap-2 mx-auto">
               <RefreshCw size={14} />
               {t('Thử lại', 'Retry')}
             </button>
           </div>
         )}
 
-        {!loading && !error && projectsToDisplay.length === 0 && (
-          <div className="text-center py-16">
-            <Sparkles size={32} className="text-slate-300 mx-auto mb-3" />
-            <p className="text-slate-400">{t('Chưa có dự án nào.', 'No projects yet.')}</p>
-          </div>
-        )}
-
-        {/* Grid */}
-        {!loading && !error && paginatedProjects.length > 0 && (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+        {/* Projects List */}
+        {!loading && !error && (
+          <div className="space-y-24">
             {paginatedProjects.map((project, i) => {
               const title = language === 'vi' ? project.title_vi : project.title_en;
               const description = language === 'vi' ? project.description_vi : project.description_en;
               const catLabel = CATEGORY_LABELS[project.normalizedCategory];
               const statusInfo = STATUS_BADGE[project.status] || STATUS_BADGE.coming_soon;
               const isLive = project.status === 'published' && project.demo_url;
+              
+              // Parse description into Signal/Response/Outcome safely
+              let signalText = '';
+              let responseText = '';
+              let outcomeText = '';
+              
+              if (description.includes('[SIGNAL]')) {
+                signalText = description.match(/\[SIGNAL\]([\s\S]*?)\[RESPONSE\]/)?.[1]?.trim() || '';
+                responseText = description.match(/\[RESPONSE\]([\s\S]*?)\[OUTCOME\]/)?.[1]?.trim() || '';
+                outcomeText = description.match(/\[OUTCOME\]([\s\S]*)/)?.[1]?.trim() || '';
+              } else {
+                const parts = description.split('. ');
+                signalText = parts[0] + (parts.length > 1 ? '.' : '');
+                responseText = parts.slice(1).join('. ') || t('Thiết kế và xây dựng giải pháp đáp ứng yêu cầu.', 'Designed and built a solution meeting the requirements.');
+                outcomeText = t('Một trải nghiệm số rõ ràng, phục vụ đúng mục đích của doanh nghiệp.', 'A clear digital experience serving the business purpose.');
+              }
+              
+              const overallIndex = (currentPage - 1) * ITEMS_PER_PAGE + i + 1;
+
+              let domainDisplay = 'portfolio.local';
+              if (project.demo_url) {
+                try { domainDisplay = new URL(project.demo_url).hostname; } 
+                catch (e) { domainDisplay = project.demo_url; }
+              }
 
               return (
-                <Reveal key={project.id} delay={0.2 + (i * 0.1)}>
-                  <article className="group bg-white rounded-2xl border border-slate-200/60 overflow-hidden shadow-sm card-hover flex flex-col h-full">
-                    {/* Thumbnail */}
-                    <div className="relative aspect-video bg-slate-100 overflow-hidden border-b border-slate-100">
-                      {project.thumbnail_url ? (
-                        <Image
-                          src={project.thumbnail_url}
-                          alt={title}
-                          fill
-                          className="object-cover group-hover:scale-105 transition-transform duration-500"
-                          sizes="(max-width: 768px) 100vw, 33vw"
-                        />
-                      ) : (
-                        <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform duration-300">
-                          <Sparkles size={28} className="text-blue-400/60" />
-                          <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase text-center px-4">
-                            {project.project_label ? project.project_label : (catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' '))}
-                          </span>
-                        </div>
-                      )}
-                    {/* Featured badge */}
-                    {project.featured && (
-                      <span className="absolute top-2 left-2 tag tag-blue text-[10px]">
-                        ★ {t('Nổi bật', 'Featured')}
+                <article key={project.id} className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start animate-fade-up">
+                  {/* Thumbnail / Browser Preview */}
+                  <div className="lg:col-span-7 flex flex-col group">
+                    {/* Top Labels */}
+                    <div className="flex items-center gap-3 mb-4">
+                      <div className="font-mono text-[10px] font-bold text-blue-600 flex items-center gap-2">
+                        <div className="w-1.5 h-1.5 bg-blue-600 rotate-45" />
+                        FN–{String(overallIndex).padStart(2, '0')}
+                      </div>
+                      <span className="text-slate-300">/</span>
+                      <span className="font-mono text-[10px] uppercase tracking-widest text-slate-500">
+                        {project.project_label ? project.project_label : (catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' '))}
                       </span>
-                    )}
-                    {/* Status badge */}
-                    <span className={`absolute top-2 right-2 tag ${statusInfo.class} text-[10px]`}>
-                      {language === 'vi' ? statusInfo.vi : statusInfo.en}
-                    </span>
+                    </div>
+
+                    {/* Browser Frame */}
+                    <div className="relative w-full aspect-[4/3] md:aspect-[16/10] rounded-lg border border-slate-300/80 bg-slate-100 overflow-hidden shadow-sm flex flex-col">
+                      {/* Browser Top Bar */}
+                      <div className="h-6 bg-slate-200/80 border-b border-slate-300/80 flex items-center px-3 gap-1.5 shrink-0">
+                        <div className="w-2 h-2 rounded-full bg-slate-400/80" />
+                        <div className="w-2 h-2 rounded-full bg-slate-400/80" />
+                        <div className="w-2 h-2 rounded-full bg-slate-400/80" />
+                        <div className="flex-1 text-center pr-8">
+                          <span className="font-mono text-[9px] text-slate-500 truncate block max-w-full">{domainDisplay}</span>
+                        </div>
+                      </div>
+
+                      {/* Image Area */}
+                      <div className="relative flex-1 w-full bg-white overflow-hidden">
+                        {project.thumbnail_url ? (
+                          <>
+                            <Image
+                              src={project.thumbnail_url}
+                              alt={title}
+                              fill
+                              className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.03]"
+                              sizes="(max-width: 1024px) 100vw, 60vw"
+                            />
+                            {/* Hover Overlay */}
+                            <div className="absolute inset-0 bg-slate-900/0 group-hover:bg-slate-900/5 transition-colors duration-500 z-10 pointer-events-none" />
+                            {/* Hover Button (Desktop) */}
+                            {isLive && (
+                              <div className="absolute inset-0 m-auto w-fit h-fit opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20 hidden lg:block">
+                                <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-4 py-2.5 bg-white/95 backdrop-blur-sm text-blue-600 rounded-md font-mono text-xs font-bold shadow-lg hover:bg-blue-600 hover:text-white transition-colors">
+                                  <span>VIEW PROJECT</span>
+                                  <ExternalLink size={14} />
+                                </a>
+                              </div>
+                            )}
+                          </>
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <span className="font-mono text-xs text-slate-400 uppercase tracking-widest">{t('Không có hình ảnh', 'No image')}</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
                   </div>
 
                   {/* Content */}
-                  <div className="p-5 flex flex-col flex-1">
-                    <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-600 mb-2">
-                      {project.project_label ? project.project_label : (catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' '))}
-                    </span>
-                    <h3 className="font-bold text-slate-900 text-base mb-2 leading-snug">{title}</h3>
-                    <div className="flex-1 flex flex-col items-start justify-start">
-                      <p className={`text-slate-500 text-xs leading-relaxed transition-all duration-300 ${expandedProjects.has(project.id) ? '' : 'line-clamp-3'}`}>
-                        {description}
-                      </p>
-                      {description.length > 120 && (
-                        <button 
-                          onClick={() => toggleExpand(project.id)}
-                          className="text-[10px] font-bold text-blue-600 hover:text-blue-700 mt-1"
-                        >
-                          {expandedProjects.has(project.id) 
-                            ? (language === 'vi' ? 'Thu gọn' : 'Show less') 
-                            : (language === 'vi' ? 'Xem thêm' : 'Read more')}
-                        </button>
-                      )}
-                    </div>
-
-                    {/* Tech tags */}
-                    <div className="flex flex-wrap gap-1 mt-4">
-                      {(project.technologies || []).map(tech => (
-                        <span key={tech} className="tag tag-slate text-[10px]">{tech}</span>
-                      ))}
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-2 mt-4 pt-4 border-t border-slate-100">
-                      {isLive ? (
-                        <a
-                          href={project.demo_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-primary flex-1 text-xs py-2"
-                        >
-                          <ExternalLink size={12} />
-                          Live Demo
-                        </a>
-                      ) : (
-                        <button disabled className="flex-1 px-3 py-2 bg-slate-100 text-slate-400 text-xs font-medium rounded-lg cursor-not-allowed">
+                  <div className="lg:col-span-5 flex flex-col justify-center h-full pt-2 lg:pt-[3.25rem] space-y-8">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-3 mb-4">
+                        <span className={`font-mono text-[10px] px-2 py-0.5 border ${statusInfo.class}`}>
                           {language === 'vi' ? statusInfo.vi : statusInfo.en}
-                        </button>
-                      )}
-                      {project.github_url && (
-                        <a
-                          href={project.github_url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn-secondary px-3 py-2"
-                          title="GitHub"
-                        >
-                          <Github size={14} />
-                        </a>
-                      )}
+                        </span>
+                      </div>
+                      <h3 className="font-display text-3xl md:text-4xl font-medium text-slate-900 leading-tight">
+                        {title}
+                      </h3>
+                    </div>
+
+                    {(signalText || responseText || outcomeText) && (
+                      <div className="space-y-6 pt-6 border-t border-border">
+                        {(signalText || responseText) && (
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            {/* Signal */}
+                            {signalText && (
+                              <div className="space-y-3">
+                                <h4 className="font-mono text-[10px] uppercase tracking-widest text-slate-400 flex items-center gap-2">
+                                  <div className="w-1.5 h-1.5 bg-slate-300 rotate-45" /> SIGNAL
+                                </h4>
+                                <p className="text-sm text-slate-700 leading-relaxed font-sans">{signalText}</p>
+                              </div>
+                            )}
+                            {/* Response */}
+                            {responseText && (
+                              <div className="space-y-3">
+                                <h4 className="font-mono text-[10px] uppercase tracking-widest text-blue-600 flex items-center gap-2">
+                                  <div className="w-1.5 h-1.5 bg-blue-600 rotate-45" /> RESPONSE
+                                </h4>
+                                <p className="text-sm text-slate-700 leading-relaxed font-sans">{responseText}</p>
+                              </div>
+                            )}
+                          </div>
+                        )}
+                        
+                        {/* Outcome */}
+                        {outcomeText && (
+                          <div className={`space-y-3 ${(signalText || responseText) ? 'pt-6 border-t border-border/50' : ''}`}>
+                            <h4 className="font-mono text-[10px] uppercase tracking-widest text-slate-900 flex items-center gap-2">
+                              <div className="w-1.5 h-1.5 bg-slate-900 rotate-45" /> OUTCOME
+                            </h4>
+                            <p className="text-sm text-slate-700 leading-relaxed font-sans">{outcomeText}</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* Footer: Tech & Links */}
+                    <div className="flex flex-wrap items-center justify-between gap-4 pt-6 mt-auto">
+                      <div className="flex flex-wrap gap-x-4 gap-y-2">
+                        {(project.technologies || []).slice(0, 4).map(tech => (
+                          <span key={tech} className="font-mono text-[10px] text-slate-500">{tech}</span>
+                        ))}
+                      </div>
+                      <div className="flex items-center gap-3">
+                        {isLive && (
+                          <a href={project.demo_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 font-mono text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors">
+                            <ExternalLink size={14} /> LIVE
+                          </a>
+                        )}
+                        {project.github_url && (
+                          <a href={project.github_url} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 font-mono text-xs text-slate-500 hover:text-slate-900 transition-colors">
+                            <Github size={14} /> CODE
+                          </a>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </article>
-              </Reveal>
               );
             })}
           </div>
@@ -271,7 +313,7 @@ export default function Projects() {
 
         {/* Pagination */}
         {!loading && !error && totalPages > 1 && (
-          <div className="flex justify-center items-center gap-2 mt-12">
+          <div className="flex justify-center items-center gap-2 mt-24">
             {Array.from({ length: totalPages }).map((_, idx) => (
               <button
                 key={idx}
@@ -279,10 +321,10 @@ export default function Projects() {
                   setCurrentPage(idx + 1);
                   document.getElementById('projects').scrollIntoView({ behavior: 'smooth' });
                 }}
-                className={`w-10 h-10 flex items-center justify-center rounded-full text-sm font-semibold transition-all duration-300 ${
+                className={`w-8 h-8 flex items-center justify-center font-mono text-xs transition-all ${
                   currentPage === idx + 1
-                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/30 scale-110'
-                    : 'bg-white text-slate-500 border border-slate-200/60 hover:bg-slate-50 hover:text-blue-600 hover:border-blue-200'
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-transparent text-slate-500 hover:bg-slate-200'
                 }`}
               >
                 {idx + 1}

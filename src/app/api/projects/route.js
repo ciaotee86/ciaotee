@@ -66,12 +66,14 @@ export async function GET(request) {
     const { searchParams } = new URL(request.url);
     const category = searchParams.get('category');
     const featured = searchParams.get('featured');
+    const all = searchParams.get('all') === 'true';
 
     if (!isSupabaseConfigured()) {
       // Return mock data
       let data = MOCK_PROJECTS;
       if (category) data = data.filter(p => p.category === category);
       if (featured === 'true') data = data.filter(p => p.featured);
+      if (!all) data = data.filter(p => p.status === 'published');
       return NextResponse.json({ data, mock: true });
     }
 
@@ -79,9 +81,12 @@ export async function GET(request) {
     let query = supabase
       .from('projects')
       .select('*')
-      .eq('status', 'published')
       .order('featured', { ascending: false })
       .order('created_at', { ascending: false });
+      
+    if (!all) {
+      query = query.eq('status', 'published');
+    }
 
     if (category) query = query.eq('category', category);
     if (featured === 'true') query = query.eq('featured', true);

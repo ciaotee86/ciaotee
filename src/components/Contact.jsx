@@ -1,9 +1,8 @@
 "use client";
 import React, { useState } from 'react';
-import { Mail, Send, CheckCircle2, AlertCircle } from 'lucide-react';
+import { Mail, CheckCircle2, AlertCircle } from 'lucide-react';
 import { Github, Linkedin, Facebook, Instagram } from './BrandIcons';
 import { useLanguage } from '../context/LanguageContext';
-import Reveal from './Reveal';
 
 export default function Contact() {
   const { t } = useLanguage();
@@ -35,7 +34,7 @@ export default function Contact() {
       });
       if (res.ok) {
         setStatus('success');
-        setForm({ name: '', email: '', subject: '', message: '' }); // reset form
+        setForm({ name: '', email: '', subject: '', message: '' });
       } else {
         setStatus('error');
       }
@@ -52,120 +51,150 @@ export default function Contact() {
     { icon: Facebook, label: 'Facebook', href: 'https://www.facebook.com/ciaossu.qt.tee/', val: 'ciaossu.qt.tee' },
   ];
 
+  const InputField = ({ label, type = "text", placeholder, value, onChange, error }) => (
+    <div className="relative group">
+      <label className="block text-[10px] uppercase tracking-widest font-mono text-slate-500 mb-1">{label}</label>
+      {type === "textarea" ? (
+        <textarea
+          rows={4}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          className={`w-full bg-transparent border-0 border-b border-border py-2 px-0 focus:ring-0 focus:border-blue-600 outline-none text-slate-900 placeholder:text-slate-300 font-sans text-sm transition-colors resize-none ${error ? 'border-red-400' : ''}`}
+        />
+      ) : (
+        <input
+          type={type}
+          placeholder={placeholder}
+          value={value}
+          onChange={onChange}
+          className={`w-full bg-transparent border-0 border-b border-border py-2 px-0 focus:ring-0 focus:border-blue-600 outline-none text-slate-900 placeholder:text-slate-300 font-sans text-sm transition-colors ${error ? 'border-red-400' : ''}`}
+        />
+      )}
+      {error && (
+        <p className="text-[10px] text-red-500 mt-1 flex items-center gap-1 font-mono absolute -bottom-5 left-0">
+          <AlertCircle size={10} />{error}
+        </p>
+      )}
+    </div>
+  );
+
   return (
-    <section id="contact" className="border-t border-slate-200/60 bg-white">
-      <div className="section-container">
-        <div className="text-center mb-12">
-          <Reveal>
-            <h2 className="section-heading">{t('Bắt Đầu Dự Án', 'Start Your Project')}</h2>
-            <div className="section-divider" />
-            <p className="mt-4 text-slate-500 text-sm max-w-md mx-auto">
-              {t(
-                'Sẵn sàng nâng tầm doanh nghiệp của bạn? Hãy chia sẻ về dự án để nhận tư vấn và báo giá chi tiết.',
-                'Ready to elevate your business? Tell me about your project to get a consultation and quote.'
-              )}
-            </p>
-          </Reveal>
-        </div>
+    <section id="contact" className="border-t border-border bg-white py-24 relative">
+      <div className="max-w-5xl mx-auto px-6">
+        
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-16 md:gap-24">
+          
+          {/* Left Column: Heading & Info */}
+          <div className="md:col-span-5 space-y-12 animate-fade-up">
+            <div>
+              <h2 className="font-display text-4xl lg:text-5xl font-medium text-slate-900 tracking-tight leading-tight">
+                {t('Bắt đầu một dự án rõ ràng.', 'Start a clear project.')}
+              </h2>
+              <p className="mt-6 text-slate-600 text-sm font-sans leading-relaxed">
+                {t(
+                  'Gửi cho tôi tín hiệu của bạn. Chúng ta sẽ cùng nhau xây dựng một giải pháp kỹ thuật số giúp doanh nghiệp của bạn phát triển.',
+                  'Send me your signal. Together, we will build a digital solution that helps your business grow.'
+                )}
+              </p>
+            </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
-          {/* Left — Info */}
-          <Reveal delay={0.2} className="lg:col-span-4 space-y-4">
-            <h3 className="font-bold text-slate-800 text-sm">{t('Thông tin liên lạc', 'Contact Info')}</h3>
-            {socialLinks.map(({ icon: Icon, label, href, val }) => (
-              <a
-                key={label}
-                href={href}
-                target={href.startsWith('http') ? '_blank' : undefined}
-                rel="noopener noreferrer"
-                className="flex items-center gap-3 p-3 rounded-xl border border-slate-200/60 bg-slate-50/50 hover:bg-blue-50/30 hover:border-blue-200 transition-all duration-200 group"
-              >
-                <span className="w-8 h-8 rounded-lg bg-white border border-slate-200 flex items-center justify-center text-slate-500 group-hover:text-blue-600 group-hover:border-blue-200 transition-colors">
-                  <Icon size={14} />
-                </span>
-                <div>
-                  <div className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{label}</div>
-                  <div className="text-xs font-medium text-slate-700 truncate">{val}</div>
-                </div>
-              </a>
-            ))}
-          </Reveal>
+            <div className="space-y-6 pt-8 border-t border-border">
+              <h3 className="font-mono text-[10px] uppercase tracking-widest text-slate-400">
+                {t('Kênh tiếp nhận', 'Receiving Channels')}
+              </h3>
+              <ul className="space-y-4">
+                {socialLinks.map(({ icon: Icon, label, href, val }) => (
+                  <li key={label}>
+                    <a
+                      href={href}
+                      target={href.startsWith('http') ? '_blank' : undefined}
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 group"
+                    >
+                      <span className="w-8 h-8 flex items-center justify-center text-slate-400 group-hover:text-blue-600 transition-colors">
+                        <Icon size={16} />
+                      </span>
+                      <div>
+                        <div className="text-[10px] font-mono uppercase tracking-widest text-slate-400 group-hover:text-slate-600 transition-colors">{label}</div>
+                        <div className="text-sm font-medium text-slate-800">{val}</div>
+                      </div>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
 
-          {/* Right — Form */}
-          <Reveal delay={0.3} className="lg:col-span-8">
+          {/* Right Column: Minimalist Form */}
+          <div className="md:col-span-7 animate-fade-up" style={{ animationDelay: '200ms' }}>
             {status === 'success' ? (
-              <div className="flex flex-col items-center justify-center py-16 gap-4">
-                <div className="w-14 h-14 rounded-full bg-green-50 border border-green-200 flex items-center justify-center">
-                  <CheckCircle2 size={28} className="text-green-600" />
-                </div>
-                <h3 className="font-bold text-slate-800">{t('Đã gửi thành công!', 'Sent successfully!')}</h3>
-                <p className="text-slate-500 text-sm">{t('Tôi sẽ phản hồi bạn sớm nhất có thể.', 'I will get back to you as soon as possible.')}</p>
-                <button onClick={() => { setStatus(null); setForm({ name: '', email: '', subject: '', message: '' }); }} className="btn-secondary text-sm">
+              <div className="h-full flex flex-col items-center justify-center text-center py-16 border border-border bg-slate-50">
+                <CheckCircle2 size={32} className="text-blue-600 mb-4" />
+                <h3 className="font-display text-2xl text-slate-900 mb-2">{t('Tín hiệu đã được nhận!', 'Signal Received!')}</h3>
+                <p className="text-slate-600 text-sm mb-6">{t('Tôi sẽ phản hồi bạn trong vòng 24 giờ.', 'I will respond within 24 hours.')}</p>
+                <button onClick={() => setStatus(null)} className="font-mono text-xs text-blue-600 border-b border-blue-600 pb-0.5 hover:text-blue-800 hover:border-blue-800 transition-colors">
                   {t('Gửi tin nhắn khác', 'Send another message')}
                 </button>
               </div>
             ) : (
-              <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {[
-                    { key: 'name', label: t('Tên của bạn', 'Your Name'), type: 'text', placeholder: t('Nguyễn Văn A', 'John Doe') },
-                    { key: 'email', label: 'Email', type: 'email', placeholder: 'name@example.com' },
-                  ].map(field => (
-                    <div key={field.key}>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1.5">{field.label}</label>
-                      <input
-                        type={field.type}
-                        value={form[field.key]}
-                        onChange={e => setForm(f => ({ ...f, [field.key]: e.target.value }))}
-                        className={`form-input ${errors[field.key] ? 'error' : ''}`}
-                        placeholder={field.placeholder}
-                      />
-                      {errors[field.key] && (
-                        <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1">
-                          <AlertCircle size={11} />{errors[field.key]}
-                        </p>
-                      )}
-                    </div>
-                  ))}
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">{t('Tiêu đề', 'Subject')}</label>
-                  <input
-                    type="text"
-                    value={form.subject}
-                    onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
-                    className={`form-input ${errors.subject ? 'error' : ''}`}
-                    placeholder={t('Tôi muốn trao đổi về...', 'I would like to discuss...')}
+              <form onSubmit={handleSubmit} noValidate className="space-y-10">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+                  <InputField
+                    label={t('Tên của bạn', 'Your Name')}
+                    placeholder="John Doe"
+                    value={form.name}
+                    onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
+                    error={errors.name}
                   />
-                  {errors.subject && <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1"><AlertCircle size={11} />{errors.subject}</p>}
-                </div>
-                <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1.5">{t('Nội dung', 'Message')}</label>
-                  <textarea
-                    rows={5}
-                    value={form.message}
-                    onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-                    className={`form-input resize-none ${errors.message ? 'error' : ''}`}
-                    placeholder={t('Mô tả ý tưởng, ngành nghề, loại website bạn cần...', 'Describe your idea, industry, type of website you need...')}
+                  <InputField
+                    label="Email"
+                    type="email"
+                    placeholder="name@example.com"
+                    value={form.email}
+                    onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                    error={errors.email}
                   />
-                  {errors.message && <p className="text-[11px] text-red-500 mt-1 flex items-center gap-1"><AlertCircle size={11} />{errors.message}</p>}
                 </div>
-                <button type="submit" disabled={status === 'loading'} className="btn-primary w-full justify-center sm:w-auto">
-                  {status === 'loading' ? (
-                    <span className="flex items-center gap-2">
-                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      {t('Đang gửi...', 'Sending...')}
-                    </span>
-                  ) : (
-                    <>
-                      <Send size={14} />
-                      {t('Gửi yêu cầu', 'Send Request')}
-                    </>
+                
+                <InputField
+                  label={t('Tiêu đề', 'Subject')}
+                  placeholder={t('Tôi cần xây dựng website cho...', 'I need a website for...')}
+                  value={form.subject}
+                  onChange={e => setForm(f => ({ ...f, subject: e.target.value }))}
+                  error={errors.subject}
+                />
+                
+                <InputField
+                  label={t('Nội dung', 'Message')}
+                  type="textarea"
+                  placeholder={t('Mô tả chi tiết bài toán kinh doanh của bạn...', 'Describe your business problem in detail...')}
+                  value={form.message}
+                  onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
+                  error={errors.message}
+                />
+
+                <div className="pt-4">
+                  <button type="submit" disabled={status === 'loading'} className="group flex items-center gap-3 bg-slate-900 text-white px-8 py-4 font-mono text-xs uppercase tracking-widest hover:bg-blue-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    {status === 'loading' ? (
+                      <>{t('Đang truyền...', 'Transmitting...')}</>
+                    ) : (
+                      <>
+                        {t('Truyền tín hiệu', 'Transmit Signal')}
+                        <div className="w-1.5 h-1.5 bg-white rotate-45 group-hover:scale-125 transition-transform" />
+                      </>
+                    )}
+                  </button>
+                  {status === 'error' && (
+                    <p className="text-xs text-red-500 mt-3 font-sans">
+                      {t('Lỗi đường truyền. Vui lòng thử lại.', 'Transmission error. Please try again.')}
+                    </p>
                   )}
-                </button>
+                </div>
               </form>
             )}
-          </Reveal>
+          </div>
+
         </div>
       </div>
     </section>

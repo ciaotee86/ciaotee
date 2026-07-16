@@ -1,51 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from 'react';
-import { ArrowRight, Code2, Layout, Sparkles, ChevronDown } from 'lucide-react';
+import React from 'react';
+import { ArrowRight, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../context/LanguageContext';
-
-const ROLES = ['Web Developer', 'UI Designer', 'Frontend Engineer'];
 
 export default function Hero() {
   const { t, language } = useLanguage();
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState('');
-  const [typing, setTyping] = useState(true);
-  const [projectCount, setProjectCount] = useState(0);
-
-  // Fetch project count
-  useEffect(() => {
-    fetch('/api/projects')
-      .then(res => res.json())
-      .then(data => {
-        if (data && data.data && data.data.length > 0) {
-          setProjectCount(data.data.length);
-        }
-      })
-      .catch(err => console.error("Could not fetch project count", err));
-  }, []);
-
-  // Typewriter effect for roles
-  useEffect(() => {
-    const currentRole = ROLES[roleIndex];
-    let timeout;
-
-    if (typing) {
-      if (displayed.length < currentRole.length) {
-        timeout = setTimeout(() => setDisplayed(currentRole.slice(0, displayed.length + 1)), 80);
-      } else {
-        timeout = setTimeout(() => setTyping(false), 1800);
-      }
-    } else {
-      if (displayed.length > 0) {
-        timeout = setTimeout(() => setDisplayed(displayed.slice(0, -1)), 40);
-      } else {
-        setRoleIndex(i => (i + 1) % ROLES.length);
-        setTyping(true);
-      }
-    }
-    return () => clearTimeout(timeout);
-  }, [displayed, typing, roleIndex]);
 
   const scrollTo = (id) => {
     const el = document.getElementById(id);
@@ -55,133 +15,95 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center pt-[72px] gradient-mesh overflow-hidden"
+      className="relative min-h-[90vh] flex items-center pt-[72px] overflow-hidden bg-bg"
     >
-      {/* Decorative blobs */}
-      <div className="absolute top-24 right-0 w-[500px] h-[500px] rounded-full bg-blue-500/5 blur-3xl pointer-events-none" />
-      <div className="absolute bottom-12 left-0 w-[400px] h-[400px] rounded-full bg-violet-500/5 blur-3xl pointer-events-none" />
-
       <div className="max-w-6xl mx-auto px-6 py-20 w-full">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
-
           {/* Left Content */}
           <div className="lg:col-span-7 space-y-8">
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 animate-fade-up" style={{ animationDelay: '0ms' }}>
-              <span className="tag tag-blue"><Layout size={10} />{t('Thiết kế UI/UX', 'UI/UX Architecture')}</span>
-              <span className="tag tag-purple"><Code2 size={10} />{t('Frontend Developer', 'Frontend Developer')}</span>
-              <span className="tag tag-slate"><Sparkles size={10} />{t('Tối ưu Chuyển đổi', 'Conversion Optimization')}</span>
+            {/* Eyebrow */}
+            <div className="flex items-center gap-3 animate-fade-up" style={{ animationDelay: '0ms' }}>
+              <div className="w-2 h-2 bg-blue-600 rotate-45" />
+              <span className="font-mono text-[10px] md:text-xs font-semibold tracking-widest text-slate-500 uppercase">
+                {t('Web Designer & Developer · Sẵn sàng nhận dự án', 'Web Designer & Developer · Available for selected projects')}
+              </span>
             </div>
 
             {/* Headline */}
             <div className="space-y-4">
-              <h2 className="text-xl md:text-2xl font-semibold text-slate-500">
-                {t('Xin chào, tôi là Tee', "Hi, I'm Tee")}
-              </h2>
-              <h1 className="text-5xl lg:text-7xl font-bold text-slate-900 tracking-tight leading-[1.1]">
-                {t('Giải pháp Digital', 'Digital solutions')} <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-violet-600">
-                  {t('đột phá trải nghiệm của bạn', 'Revolutionize your experience')}
-                </span>
+              <h1 className="text-4xl md:text-5xl lg:text-[4rem] font-display font-medium text-slate-900 leading-[1.05] tracking-tight">
+                {language === 'vi' ? (
+                  <>Tôi biến những tín hiệu kinh doanh <i className="text-slate-400">rời rạc</i> thành các trải nghiệm số <span className="text-blue-600 not-italic">rõ ràng</span>.</>
+                ) : (
+                  <>I turn scattered business signals into <span className="text-blue-600">clear</span> digital experiences.</>
+                )}
               </h1>
             </div>
 
             {/* Description */}
-            <p className="text-lg text-slate-600 max-w-xl leading-relaxed">
+            <p className="text-base md:text-lg text-slate-600 max-w-xl leading-relaxed font-sans animate-fade-up" style={{ animationDelay: '200ms' }}>
               {t(
-                'Biến tầm nhìn của bạn thành các sản phẩm số vượt trội. Tôi kết hợp tư duy thiết kế và kiến trúc phần mềm hiện đại để tạo ra những trải nghiệm web tốc độ cao, bảo mật và tối ưu tỷ lệ chuyển đổi.',
-                'Transforming visions into exceptional digital products. I combine design thinking with modern software architecture to build fast, secure, and highly converting web experiences.'
+                'Tôi thiết kế và xây dựng các website thực dụng cho các doanh nghiệp nhỏ, giúp họ dễ dàng được tìm thấy, được thấu hiểu và kết nối với khách hàng.',
+                'I design and build practical websites for small businesses that need to be found, understood, and contacted.'
               )}
             </p>
 
-
-
-            {/* Stats */}
-            <div
-              className="flex gap-8 animate-fade-up"
-              style={{ animationDelay: '300ms' }}
-            >
-              {[
-                { num: projectCount > 0 ? `${projectCount}+` : '0', label: t('Dự án', 'Projects') },
-                { num: '100%', label: t('Tận tâm', 'Dedicated') },
-                { num: '2+', label: t('Năm kinh nghiệm', 'Years experience') },
-              ].map(({ num, label }) => (
-                <div key={label} className="text-left">
-                  <div className="text-2xl font-black text-slate-900">{num}</div>
-                  <div className="text-xs text-slate-500 font-medium mt-0.5">{label}</div>
-                </div>
-              ))}
-            </div>
-
             {/* CTAs */}
             <div
-              className="flex flex-col sm:flex-row gap-3 animate-fade-up"
-              style={{ animationDelay: '400ms' }}
+              className="flex flex-col sm:flex-row gap-4 pt-4 animate-fade-up"
+              style={{ animationDelay: '300ms' }}
             >
-              <button onClick={() => scrollTo('contact')} className="btn-primary">
-                {t('Liên hệ với tôi', 'Get In Touch')}
-                <ArrowRight size={16} />
+              <button onClick={() => scrollTo('projects')} className="group flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 text-white font-mono text-sm font-semibold border border-slate-900 hover:bg-blue-600 hover:border-blue-600 transition-all cursor-pointer">
+                {t('Khám phá Ghi chép', 'Explore Field Notes')}
+                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <button onClick={() => scrollTo('projects')} className="btn-secondary">
-                {t('Xem dự án', 'View Projects')}
+              <button onClick={() => scrollTo('contact')} className="flex items-center justify-center px-6 py-3 bg-transparent text-slate-900 font-mono text-sm font-semibold border border-slate-300 hover:border-slate-900 transition-all cursor-pointer">
+                {t('Bắt đầu dự án', 'Start a Project')}
               </button>
             </div>
           </div>
 
-          {/* Right — Code card */}
-          <div className="lg:col-span-5 animate-fade-up animate-float" style={{ animationDelay: '500ms' }}>
-            <div className="relative bg-white rounded-2xl border border-slate-200/80 shadow-xl overflow-hidden">
-              {/* Window chrome */}
-              <div className="flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200/80">
-                <div className="flex gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-red-400" />
-                  <span className="w-3 h-3 rounded-full bg-amber-400" />
-                  <span className="w-3 h-3 rounded-full bg-green-400" />
-                </div>
-                <span className="font-mono text-[11px] text-slate-400">portfolio.tsx</span>
-                <span className="w-12" />
+          {/* Right — Signal Map */}
+          <div className="lg:col-span-5 relative flex items-center justify-center animate-fade-up" style={{ animationDelay: '500ms' }}>
+            <div className="flex flex-col items-center relative w-full max-w-sm">
+              {/* Signals coming in */}
+              <div className="flex justify-between w-full mb-2 relative px-4">
+                 <div className="flex flex-col items-center gap-3">
+                   <span className="font-mono text-[10px] text-slate-500 text-center max-w-[80px]">{t('Không có website', 'No website')}</span>
+                   <div className="w-px h-24 bg-slate-200 relative overflow-hidden">
+                      <div className="absolute top-0 left-0 w-full h-8 bg-slate-400 animate-[slideDown_2.5s_ease-in-out_infinite]" />
+                   </div>
+                 </div>
+                 <div className="flex flex-col items-center gap-3 mt-8">
+                   <span className="font-mono text-[10px] text-slate-500 text-center max-w-[80px]">{t('Thông tin rối rắm', 'Confusing information')}</span>
+                   <div className="w-px h-16 bg-slate-200 relative overflow-hidden">
+                       <div className="absolute top-0 left-0 w-full h-8 bg-slate-400 animate-[slideDown_2s_ease-in-out_infinite_0.5s]" />
+                   </div>
+                 </div>
+                 <div className="flex flex-col items-center gap-3">
+                   <span className="font-mono text-[10px] text-slate-500 text-center max-w-[80px]">{t('Khó liên hệ', 'Difficult contact')}</span>
+                   <div className="w-px h-24 bg-slate-200 relative overflow-hidden">
+                       <div className="absolute top-0 left-0 w-full h-8 bg-slate-400 animate-[slideDown_2.2s_ease-in-out_infinite_1s]" />
+                   </div>
+                 </div>
+              </div>
+              
+              {/* The Tee Diamond Marker */}
+              <div className="z-10 bg-bg p-3 flex flex-col items-center gap-2">
+                <div className="w-6 h-6 bg-blue-600 rotate-45" />
               </div>
 
-              {/* Code content */}
-              <div className="p-5 font-mono text-sm leading-relaxed bg-white">
-                <div className="flex gap-2 text-slate-400 text-xs mb-4">
-                  <span>1</span>
-                  <span className="text-slate-300">|</span>
-                  <span className="text-violet-500">const</span>
-                  <span className="text-blue-600">developer</span>
-                  <span className="text-slate-400">=</span>
-                  <span className="text-amber-600">{'{'}</span>
-                </div>
-                <div className="space-y-2 pl-6 text-xs">
-                  {[
-                    { key: 'name', val: '"Tee"', color: 'text-green-600' },
-                    { key: 'role', val: '"Web Developer"', color: 'text-green-600' },
-                    { key: 'skills', val: '["React", "Next.js", "UI"]', color: 'text-blue-600' },
-                    { key: 'available', val: 'true', color: 'text-orange-500' },
-                  ].map(({ key, val, color }) => (
-                    <div key={key} className="flex gap-2 text-slate-500">
-                      <span className="text-slate-400">{key}:</span>
-                      <span className={color}>{val}</span>
-                    </div>
-                  ))}
-                </div>
-                <div className="text-xs text-amber-600 mt-4 flex items-center gap-2">
-                  {'};'}
-                  <span className="ml-2 flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
-                    <span className="text-green-600 text-[10px] font-sans font-medium">
-                      {t('Sẵn sàng nhận dự án', 'Available for projects')}
-                    </span>
-                  </span>
-                </div>
+              {/* Clear outcome going out */}
+              <div className="w-px h-24 bg-blue-600 relative overflow-hidden flex justify-center -mt-3">
+                <div className="absolute top-0 w-1 h-12 bg-blue-300 blur-[1px] animate-[slideDown_2s_ease-in-out_infinite_1.5s]" />
               </div>
-            </div>
-
-            {/* Floating skill badges */}
-            <div className="mt-4 flex gap-2 justify-center flex-wrap">
-              {['React', 'Next.js', 'Tailwind', 'Figma', 'Node.js'].map(skill => (
-                <span key={skill} className="tag tag-slate text-[11px]">{skill}</span>
-              ))}
+              
+              <div className="mt-0 border-l border-r border-b border-blue-600/30 bg-blue-50/50 px-8 py-5 text-center relative w-full">
+                <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-blue-600 to-transparent" />
+                <span className="font-mono text-xs font-semibold text-blue-700 tracking-tight uppercase">
+                  {t('Website rõ ràng, hữu dụng', 'A clear, useful website')}
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -189,11 +111,12 @@ export default function Hero() {
         {/* Scroll Indicator */}
         <button
           onClick={() => scrollTo('about')}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer"
+          className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400 hover:text-blue-600 transition-colors cursor-pointer"
           aria-label="Scroll down"
         >
-          <span className="text-[10px] font-medium tracking-widest uppercase">Scroll</span>
-          <ChevronDown size={16} className="animate-bounce" />
+          <div className="w-px h-8 bg-slate-300 overflow-hidden relative">
+            <div className="absolute top-0 left-0 w-full h-4 bg-slate-500 animate-[slideDown_1.5s_ease-in-out_infinite]" />
+          </div>
         </button>
       </div>
     </section>

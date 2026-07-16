@@ -11,13 +11,12 @@ export default function Header() {
   const { language, toggleLanguage, t } = useLanguage();
 
   const navItems = [
-    { id: 'home', labelVi: 'Trang chủ', labelEn: 'Home' },
-    { id: 'about', labelVi: 'Về tôi', labelEn: 'About' },
-    { id: 'projects', labelVi: 'Dự án', labelEn: 'Projects' },
-    { id: 'skills', labelVi: 'Kỹ năng', labelEn: 'Skills' },
-    { id: 'services', labelVi: 'Dịch vụ', labelEn: 'Services' },
-    { id: 'process', labelVi: 'Quy trình', labelEn: 'Process' },
-    { id: 'contact', labelVi: 'Liên hệ', labelEn: 'Contact' },
+    { id: 'home', prefix: '/00', labelVi: 'Giới thiệu', labelEn: 'Introduction' },
+    { id: 'projects', prefix: '/01', labelVi: 'Ghi chép', labelEn: 'Field Notes' },
+    { id: 'skills', prefix: '/02', labelVi: 'Công cụ', labelEn: 'Build Kit' },
+    { id: 'services', prefix: '/03', labelVi: 'Dịch vụ', labelEn: 'Services' },
+    { id: 'process', prefix: '/04', labelVi: 'Quy trình', labelEn: 'Method' },
+    { id: 'contact', prefix: '/05', labelVi: 'Bắt đầu', labelEn: 'Start' },
   ];
 
   const handleScroll = useCallback(() => {
@@ -57,13 +56,14 @@ export default function Header() {
       }`}
     >
       <div className="max-w-6xl mx-auto px-6 h-[72px] flex items-center justify-between">
-        {/* Logo */}
+        {/* Logo / Signal Marker */}
         <button
           onClick={() => scrollTo('home')}
           className="flex items-center gap-2.5 group cursor-pointer"
         >
-          <img src="/icon.png" alt="Logo" className="w-8 h-8 object-contain mix-blend-multiply group-hover:scale-110 transition-transform duration-200" />
-          <span className="font-bold text-lg text-slate-900 tracking-tight">Tee</span>
+          {/* Blue Diamond Marker */}
+          <div className="w-4 h-4 bg-blue-600 rotate-45 group-hover:scale-110 group-hover:rotate-90 transition-all duration-300 shadow-sm" />
+          <span className="font-display font-bold text-xl text-slate-900 tracking-tight italic">Tee</span>
         </button>
 
         {/* Desktop Nav */}
@@ -78,9 +78,10 @@ export default function Header() {
                   : 'text-slate-500 hover:text-slate-900 hover:bg-slate-100/70'
               }`}
             >
+              <span className="font-mono text-[10px] text-slate-400 mr-1.5 opacity-70 group-hover:opacity-100">{item.prefix}</span>
               {language === 'vi' ? item.labelVi : item.labelEn}
               {activeSection === item.id && (
-                <span className="absolute bottom-1 left-1/2 -translate-x-1/2 h-0.5 w-4 rounded-full bg-blue-600" />
+                <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1.5 h-1.5 bg-blue-600 rotate-45" />
               )}
             </button>
           ))}
@@ -134,6 +135,7 @@ export default function Header() {
                   : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
               }`}
             >
+              <span className="font-mono text-[10px] text-slate-400 mr-2">{item.prefix}</span>
               {language === 'vi' ? item.labelVi : item.labelEn}
             </button>
           ))}
