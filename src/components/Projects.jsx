@@ -186,8 +186,8 @@ export default function Projects() {
                       ) : (
                         <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 group-hover:scale-105 transition-transform duration-300">
                           <Sparkles size={28} className="text-blue-400/60" />
-                          <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                            {catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' ')}
+                          <span className="text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase text-center px-4">
+                            {project.project_label ? project.project_label : (catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' '))}
                           </span>
                         </div>
                       )}
@@ -206,7 +206,7 @@ export default function Projects() {
                   {/* Content */}
                   <div className="p-5 flex flex-col flex-1">
                     <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-blue-600 mb-2">
-                      {catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' ')}
+                      {project.project_label ? project.project_label : (catLabel ? catLabel[language] : project.normalizedCategory.replace(/_/g, ' '))}
                     </span>
                     <h3 className="font-bold text-slate-900 text-base mb-2 leading-snug">{title}</h3>
                     <div className="flex-1 flex flex-col items-start justify-start">

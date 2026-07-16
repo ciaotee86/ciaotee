@@ -40,6 +40,7 @@ export const projectSchema = z.object({
     .array(z.string().min(1).max(30))
     .min(1, 'Phải có ít nhất 1 công nghệ')
     .max(10, 'Tối đa 10 công nghệ'),
+  project_label: z.string().optional().or(z.literal('')),
   thumbnail_url: z.string().url().optional().or(z.literal('')),
   demo_url: z.string().url().optional().or(z.literal('')),
   github_url: z.string().url().optional().or(z.literal('')),

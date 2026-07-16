@@ -22,13 +22,22 @@ const STATUS_OPTIONS = [
   { value: 'draft', label: '📝 Bản nháp' },
 ];
 
+const PROJECT_LABELS = [
+  { value: '', label: 'Không có nhãn' },
+  { value: 'Independent Project', label: 'Independent Project' },
+  { value: 'Personal Build', label: 'Personal Build' },
+  { value: 'Concept Redesign', label: 'Concept Redesign' },
+  { value: 'Speculative Concept', label: 'Speculative Concept' },
+  { value: 'Client Project', label: 'Client Project' },
+];
+
 const EMPTY_FORM = {
   title_vi: '', title_en: '',
   description_vi: '', description_en: '',
   category: 'landing_page',
   technologies: '',
   thumbnail_url: '', demo_url: '', github_url: '',
-  status: 'coming_soon', featured: false,
+  status: 'coming_soon', featured: false, project_label: '',
 };
 
 export default function AdminDashboard() {
@@ -452,8 +461,8 @@ export default function AdminDashboard() {
                 </div>
               ))}
 
-              {/* Category + Status */}
-              <div className="grid grid-cols-2 gap-4">
+              {/* Category + Status + Label */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <label className="block text-[11px] font-semibold text-slate-400 mb-1.5">Loại dự án</label>
                   <input
@@ -475,6 +484,16 @@ export default function AdminDashboard() {
                     className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-all"
                   >
                     {STATUS_OPTIONS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
+                  </select>
+                </div>
+                <div>
+                  <label className="block text-[11px] font-semibold text-slate-400 mb-1.5">Nhãn dự án (Tùy chọn)</label>
+                  <select
+                    value={form.project_label || ''}
+                    onChange={e => setForm(p => ({ ...p, project_label: e.target.value }))}
+                    className="w-full bg-slate-800 border border-slate-700 rounded-lg px-3 py-2 text-sm text-white focus:outline-none focus:border-blue-500 transition-all"
+                  >
+                    {PROJECT_LABELS.map(s => <option key={s.value} value={s.value}>{s.label}</option>)}
                   </select>
                 </div>
               </div>
