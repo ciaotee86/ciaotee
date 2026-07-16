@@ -318,7 +318,7 @@ export default function AdminDashboard() {
       
       {/* Toast Notification */}
       {toast && (
-        <div className={`fixed bottom-6 right-6 z-[100] flex items-center gap-3 px-4 py-3 rounded-md shadow-2xl border animate-fade-up ${
+        <div className={`fixed top-6 right-6 z-[100] flex items-center gap-3 px-4 py-3 rounded-md shadow-2xl border animate-fade-down ${
           toast.type === 'error' ? 'bg-[#FF5D68]/10 border-[#FF5D68]/30 text-[#FF5D68]' : 'bg-[#FFFFFF] border-[#D6D1C4] text-white'
         }`}>
           {toast.type === 'error' ? <AlertCircle size={16} /> : <div className="w-2 h-2 bg-[#3DDC97] rotate-45" />}
