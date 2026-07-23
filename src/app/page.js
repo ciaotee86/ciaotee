@@ -8,10 +8,12 @@ import Services from '../components/Services';
 import Process from '../components/Process';
 import Contact from '../components/Contact';
 import Footer from '../components/Footer';
+import VisitorTracker from '../components/VisitorTracker';
 
 export default function Home() {
   return (
     <LanguageProvider>
+      <VisitorTracker />
       <Header />
       <main>
         <Hero />

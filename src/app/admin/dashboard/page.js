@@ -68,6 +68,7 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [projects, setProjects] = useState([]);
   const [messages, setMessages] = useState([]);
+  const [pageViews, setPageViews] = useState(0);
   const [loading, setLoading] = useState(true);
   
   const [activeTab, setActiveTab] = useState('overview'); // overview, projects, messages
@@ -111,14 +112,17 @@ export default function AdminDashboard() {
   const fetchData = useCallback(async () => {
     setLoading(true);
     try {
-      const [projRes, msgRes] = await Promise.all([
+      const [projRes, msgRes, viewsRes] = await Promise.all([
         fetch(`/api/projects?all=true&t=${Date.now()}`).catch(() => ({ json: () => ({ data: [] }) })),
-        fetch(`/api/messages?t=${Date.now()}`).catch(() => ({ json: () => ({ data: [] }) }))
+        fetch(`/api/messages?t=${Date.now()}`).catch(() => ({ json: () => ({ data: [] }) })),
+        fetch(`/api/views?t=${Date.now()}`).catch(() => ({ json: () => ({ totalViews: 0 }) }))
       ]);
       const projData = await (projRes.ok ? projRes.json() : { data: [] });
       const msgData = await (msgRes.ok ? msgRes.json() : { data: [] });
+      const viewsData = await (viewsRes.ok ? viewsRes.json() : { totalViews: 0 });
       setProjects(projData.data || []);
       setMessages(msgData.data || []);
+      setPageViews(viewsData.totalViews || 0);
     } catch { showToast('Lỗi tải dữ liệu', 'error'); }
     finally { setLoading(false); }
   }, []);
@@ -438,8 +442,9 @@ export default function AdminDashboard() {
           {activeTab === 'overview' && (
             <div className="max-w-[1400px] mx-auto space-y-8 animate-fade-in">
               {/* Metrics Strip */}
-              <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-2 md:grid-cols-6 gap-4">
                 {[
+                  { label: 'Lượt truy cập', value: pageViews, color: 'text-[#3867FF]' },
                   { label: 'Tổng dự án', value: metrics.total, color: 'text-[#111318]' },
                   { label: 'Đã xuất bản', value: metrics.published, color: 'text-[#3DDC97]' },
                   { label: 'Sắp ra/Nháp', value: metrics.drafts, color: 'text-[#F5B942]' },
